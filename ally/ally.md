@@ -7,21 +7,21 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-```console
+```powershell
 scoop install git
 scoop bucket add extas
 ```
 
 This is needed once:
 
-```console
+```powershell
 scoop install windowsdesktop-runtime
 scoop uninstall windowsdesktop-runtime
 ```
 
 Enable hibernate
 
-```console
+```powershell
 powercfg /hibernate on
 shutdown /h /t 0 -- Run hibernate
 ```
@@ -45,11 +45,6 @@ shutdown /h /t 0 -- Run hibernate
 * Make sure Windows not asking password right away every time:
   https://answers.microsoft.com/en-us/windows/forum/all/after-sleep-windows-11-does-not-ask-for-password/ac527b5e-dd84-4edb-a435-03df82aca692.
 
-TODO:
-
-* Disable C-V in Windows-Terminal
-* Add MSI Afterburner to scoop packages -- https://github.com/ScoopInstaller/Extras/issues/14186
-
 ## General
 
 * Logged in to live.com account
@@ -67,7 +62,7 @@ TODO:
 
 It seems hangs on restarts, so probably these services are not the main cause.
 
-```console
+```powershell
 Set-Service -Name ArmouryCrateControlInterface -StartupType Manual -- Was Automatic
 Set-Service -Name ArmouryCrateSEService -StartupType Manual -- Was Automatic and Running
 
@@ -81,7 +76,7 @@ Under admin user:
 
 https://github.com/nextdns/nextdns/wiki/Windows.
 
-```console
+```powershell
 nextdns.exe install `
   -config [redacted] `
   -report-client-info `
@@ -94,7 +89,7 @@ nextdns.exe install `
 
 ## Autohotkey
 
-```console
+```powershell
 ## Use environment variables to get the current user's AppData folder
 $StartupFolder = [Environment]::GetFolderPath('Startup')
 $FilePath = Join-Path -Path $StartupFolder -ChildPath "kinput.ahk"
@@ -108,3 +103,8 @@ Set-Content -Path $FilePath -Value $ScriptContent -Force
 ## Output the result
 Write-Host "AutoHotkey v2 script created at: $FilePath"
 ```
+
+## TODO:
+
+* Disable C-V in Windows-Terminal
+* Add MSI Afterburner to scoop packages -- https://github.com/ScoopInstaller/Extras/issues/14186
