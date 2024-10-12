@@ -17,10 +17,10 @@ $gitConfig = @"
 	filemode = true
 
 [credential "https://gist.github.com"]
-	helper = "C:\\Users\\crust\\scoop\\shims\\gh.exe auth git-credential"
+	helper = "C:/Users/crust/scoop/shims/gh.exe auth git-credential"
 
 [credential "https://github.com"]
-	helper = "C:\\Users\\crust\\scoop\\shims\\gh.exe auth git-credential"
+	helper = "C:/Users/crust/scoop/shims/gh.exe auth git-credential"
 
 [diff]
 	noprefix = true
@@ -29,7 +29,7 @@ $gitConfig = @"
 	root = "~/Sources"
 
 [gpg]
-	program = "C:\\Users\\crust\\scoop\\apps\\gnupg\\current\\bin\\gpg.exe"
+	program = "C:/Users/crust/scoop/apps/gnupg/current/bin/gpg.exe"
 
 [http]
 	postBuffer = 157286400
@@ -47,7 +47,7 @@ $gitConfig = @"
 	tool = "fugitive"
 
 [mergetool "fugitive"]
-	cmd = "nvim -f -c \\"Gvdiffsplit!\\" \\"$MERGED\\""
+	cmd = "nvim -f -c \"Gvdiffsplit!\" \"$MERGED\""
 
 [pull]
 	rebase = false
@@ -65,4 +65,4 @@ $gitConfig = @"
 	signingKey = "75213+ivankovnatsky@users.noreply.github.com"
 "@
 
-$gitConfig | Out-File -FilePath "$HOME\\.gitconfig" -Encoding utf8
+$gitConfig | Out-File -FilePath "$HOME\.gitconfig" -Encoding utf8
