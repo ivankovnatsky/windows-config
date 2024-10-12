@@ -1,4 +1,6 @@
-# Terminal
+# Ally
+
+## Terminal
 
 ```console
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -24,14 +26,14 @@ powercfg /hibernate on
 shutdown /h /t 0 -- Run hibernate
 ```
 
-# Manual
+## Manual
 
 * Increase scale to 200%
 * Enable night shift
 * Enable restore previous tabs and windows in Firefox
 * Install MSI Afterburner manually
 
-# Windows
+## Windows
 
 * Change to Black Wallpaper
 * Create Black screenshot and set for lock screen
@@ -48,20 +50,20 @@ TODO:
 * Disable C-V in Windows-Terminal
 * Add MSI Afterburner to scoop packages -- https://github.com/ScoopInstaller/Extras/issues/14186
 
-# General
+## General
 
 * Logged in to live.com account
 * Supplied asus.com email account for asus login, but probably did not login yet
 * Using Armoury Crate logged in to Steam
 
-# Taskbar 
+## Taskbar 
 
 * Disable Armoury Crate auto start, in fact it prevents normal restarts and
   sign outs, making the system stuck
 * Disable Copilot preview in taskbar settings
 
 
-# Armoury shit
+## Armoury shit
 
 It seems hangs on restarts, so probably these services are not the main cause.
 
@@ -73,7 +75,7 @@ net stop ArmouryCrateControlInterface
 net stop ArmouryCrateSEService
 ```
 
-# NextDNS
+## NextDNS
 
 Under admin user:
 
@@ -86,23 +88,23 @@ nextdns.exe install `
   -auto-activate
 ```
 
-# BIOS
+## BIOS
 
 * Disabled startup sound -- https://www.reddit.com/r/ROGAlly/comments/1asfmp1/hot_tip_turn_off_the_startup_sound/
 
-# Autohotkey
+## Autohotkey
 
 ```console
-# Use environment variables to get the current user's AppData folder
+## Use environment variables to get the current user's AppData folder
 $StartupFolder = [Environment]::GetFolderPath('Startup')
 $FilePath = Join-Path -Path $StartupFolder -ChildPath "kinput.ahk"
 
-# Create the AutoHotkey v2 script content
+## Create the AutoHotkey v2 script content
 $ScriptContent = 'CapsLock::Send("{Alt Down}{Shift Down}{Shift Up}{Alt Up}")'
 
-# Write the content to the file
+## Write the content to the file
 Set-Content -Path $FilePath -Value $ScriptContent -Force
 
-# Output the result
+## Output the result
 Write-Host "AutoHotkey v2 script created at: $FilePath"
 ```
