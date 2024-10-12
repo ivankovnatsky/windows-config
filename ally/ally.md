@@ -91,23 +91,6 @@ nextdns.exe install `
 
 * Disabled startup sound -- https://www.reddit.com/r/ROGAlly/comments/1asfmp1/hot_tip_turn_off_the_startup_sound/
 
-## Autohotkey
-
-```powershell
-## Use environment variables to get the current user's AppData folder
-$StartupFolder = [Environment]::GetFolderPath('Startup')
-$FilePath = Join-Path -Path $StartupFolder -ChildPath "kinput.ahk"
-
-## Create the AutoHotkey v2 script content
-$ScriptContent = 'CapsLock::Send("{Alt Down}{Shift Down}{Shift Up}{Alt Up}")'
-
-## Write the content to the file
-Set-Content -Path $FilePath -Value $ScriptContent -Force
-
-## Output the result
-Write-Host "AutoHotkey v2 script created at: $FilePath"
-```
-
 ## TODO:
 
 * Disable C-V in Windows-Terminal
