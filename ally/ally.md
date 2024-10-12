@@ -2,6 +2,8 @@
 
 ## Terminal
 
+Install scoop:
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
@@ -60,7 +62,9 @@ shutdown /h /t 0 -- Run hibernate
 
 ## Armoury shit
 
-It seems hangs on restarts, so probably these services are not the main cause.
+(This is not the case anymore, so consider removing it when the real reason is found)
+
+It seems it hangs on restarts, so probably these services are not the main cause.
 
 ```powershell
 Set-Service -Name ArmouryCrateControlInterface -StartupType Manual -- Was Automatic
