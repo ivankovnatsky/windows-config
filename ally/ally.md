@@ -47,6 +47,14 @@ shutdown /h /t 0 -- Run hibernate
 * Make sure Windows not asking password right away every time:
   https://answers.microsoft.com/en-us/windows/forum/all/after-sleep-windows-11-does-not-ask-for-password/ac527b5e-dd84-4edb-a435-03df82aca692.
 
+## G-Helper
+
+* Also used a feature to charge limit to 80%, this was before I figured option in MyASUS
+
+## MyASUS
+
+* Configured to limit battery charging to 80% (Battery Care Mode)
+
 ## General
 
 * Logged in to live.com account
