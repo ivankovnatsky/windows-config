@@ -8,19 +8,45 @@ function Get-PackagesFromJson($filePath) {
     return @{
         scoop = $content.scoop
         arbitrary = $content.arbitrary
+        nodejs = $content.nodejs
     }
 }
 
 # Function to read state from JSON file
 function Get-StateFromJson($filePath) {
     if (Test-Path $filePath) {
-        return Get-Content -Path $filePath -Raw | ConvertFrom-Json
+        try {
+            $state = Get-Content -Path $filePath -Raw | ConvertFrom-Json
+        } catch {
+            Write-Error "Failed to read or parse state file: $_"
+            exit 1
+        }
+    } else {
+        Write-Host "State file not found. Creating new state." -ForegroundColor Yellow
+        $state = @{
+            lastUpdated = $null
+            scoop = @()
+            arbitrary = @()
+            nodejs = @()
+        }
     }
-    return @{
-        lastUpdated = $null
-        scoop = @()
-        arbitrary = @()
+
+    # Ensure all required properties exist and are arrays
+    $requiredProperties = @('scoop', 'arbitrary', 'nodejs')
+    $updated = $false
+    foreach ($prop in $requiredProperties) {
+        if (-not ($state.PSObject.Properties.Name -contains $prop) -or $null -eq $state.$prop) {
+            $state | Add-Member -NotePropertyName $prop -NotePropertyValue @() -Force
+            $updated = $true
+        }
     }
+
+    if ($updated) {
+        $state | ConvertTo-Json -Depth 4 | Set-Content $filePath
+        Write-Host "State file updated with missing properties." -ForegroundColor Yellow
+    }
+
+    return $state
 }
 
 # Function to update state file
@@ -59,40 +85,64 @@ function Install-ArbitraryPackage($package) {
     }
 }
 
+# Function to install Node.js global package
+function Install-NodejsPackage($package) {
+    Write-Host "Installing Node.js global package: $package" -ForegroundColor Cyan
+    npm install $package -g
+    return $LASTEXITCODE -eq 0
+}
+
 # Main script
-$packages = Get-PackagesFromJson $packagesFile
-$state = Get-StateFromJson $stateFile
+try {
+    $packages = Get-PackagesFromJson $packagesFile
+    $state = Get-StateFromJson $stateFile
 
-# Process Scoop packages
-$desiredScoopPackages = $packages.scoop
-$installedScoopPackages = $state.scoop | ForEach-Object { $_.name }
+    # Process Scoop packages
+    $desiredScoopPackages = $packages.scoop
+    $installedScoopPackages = $state.scoop | ForEach-Object { $_.name }
 
-$scoopPackagesToInstall = $desiredScoopPackages | Where-Object { $_ -notin $installedScoopPackages }
-$scoopPackagesToUninstall = $installedScoopPackages | Where-Object { $_ -notin $desiredScoopPackages }
+    $scoopPackagesToInstall = $desiredScoopPackages | Where-Object { $_ -notin $installedScoopPackages }
+    $scoopPackagesToUninstall = $installedScoopPackages | Where-Object { $_ -notin $desiredScoopPackages }
 
-foreach ($package in $scoopPackagesToInstall) {
-    if (Install-ScoopPackage $package) {
-        $state.scoop += @{ name = $package; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
-    }
-}
-
-foreach ($package in $scoopPackagesToUninstall) {
-    if (Uninstall-ScoopPackage $package) {
-        $state.scoop = $state.scoop | Where-Object { $_.name -ne $package }
-    }
-}
-
-# Process arbitrary packages
-foreach ($package in $packages.arbitrary) {
-    $installedPackage = $state.arbitrary | Where-Object { $_.name -eq $package.name }
-    if (-not $installedPackage) {
-        if (Install-ArbitraryPackage $package) {
-            $state.arbitrary += @{ name = $package.name; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
+    foreach ($package in $scoopPackagesToInstall) {
+        if (Install-ScoopPackage $package) {
+            $state.scoop += @{ name = $package; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
         }
     }
+
+    foreach ($package in $scoopPackagesToUninstall) {
+        if (Uninstall-ScoopPackage $package) {
+            $state.scoop = $state.scoop | Where-Object { $_.name -ne $package }
+        }
+    }
+
+    # Process arbitrary packages
+    foreach ($package in $packages.arbitrary) {
+        $installedPackage = $state.arbitrary | Where-Object { $_.name -eq $package.name }
+        if (-not $installedPackage) {
+            if (Install-ArbitraryPackage $package) {
+                $state.arbitrary += @{ name = $package.name; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
+            }
+        }
+    }
+
+    # Process Node.js global packages
+    $desiredNodejsPackages = $packages.nodejs
+    $installedNodejsPackages = $state.nodejs | ForEach-Object { $_.name }
+
+    $nodejsPackagesToInstall = $desiredNodejsPackages | Where-Object { $_ -notin $installedNodejsPackages }
+
+    foreach ($package in $nodejsPackagesToInstall) {
+        if (Install-NodejsPackage $package) {
+            $state.nodejs += @{ name = $package; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
+        }
+    }
+
+    # Update state file
+    Update-StateFile $state
+
+    Write-Host "All packages processed." -ForegroundColor Green
+} catch {
+    Write-Error "An error occurred during script execution: $_"
+    exit 1
 }
-
-# Update state file
-Update-StateFile $state
-
-Write-Host "All packages processed." -ForegroundColor Green

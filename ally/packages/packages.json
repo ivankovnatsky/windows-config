@@ -8,6 +8,7 @@
     "chromium",
     "crystaldiskinfo",
     "crystaldiskmark",
+    "delta",
     "discord",
     "duf",
     "dust",
@@ -37,5 +38,8 @@
       "url": "https://downloader.cursor.sh/windows/nsis/x64",
       "fileName": "Cursor Setup - x64.exe"
     }
+  ],
+  "nodejs": [
+    "webtorrent-cli"
   ]
 }

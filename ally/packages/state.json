@@ -1,5 +1,5 @@
 {
-    "lastUpdated":  "2024-10-23 15:19:29",
+    "lastUpdated":  "2024-10-23 15:36:08",
     "scoop":  [
                   {
                       "name":  "7zip",
@@ -120,6 +120,10 @@
                   {
                       "name":  "bat",
                       "installedOn":  "2024-10-23 15:19:23"
+                  },
+                  {
+                      "name":  "delta",
+                      "installedOn":  "2024-10-23 15:36:08"
                   }
               ],
     "arbitrary":  [
@@ -127,5 +131,11 @@
                           "name":  "Cursor",
                           "installedOn":  "2024-10-21 18:49:28"
                       }
-                  ]
+                  ],
+    "nodejs":  [
+                   {
+                       "name":  "webtorrent-cli",
+                       "installedOn":  "2024-10-23 15:33:07"
+                   }
+               ]
 }
