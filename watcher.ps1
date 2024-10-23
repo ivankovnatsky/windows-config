@@ -16,19 +16,26 @@ $action = {
     $details = $event.SourceEventArgs
     $ChangeType = $details.ChangeType
     $FullPath = $details.FullPath
-    Write-Host "Change detected: $FullPath was $ChangeType at $(Get-Date)" -ForegroundColor Yellow
+    $currentTime = Get-Date
 
-    # Attempt to execute main.ps1
-    try {
-        # Change to the script's directory
-        Set-Location -Path (Split-Path -Path $FullPath -Parent)
+    # Debounce: Only proceed if it's been more than 2 seconds since the last run
+    if (($currentTime - $lastRunTime).TotalSeconds -ge 2) {
+        $script:lastRunTime = $currentTime
 
-        # Execute the main.ps1 script
-        & ".\main.ps1"
+        Write-Host "Change detected: $FullPath was $ChangeType at $currentTime" -ForegroundColor Yellow
 
-        Write-Host "Executed main.ps1 successfully." -ForegroundColor Green
-    } catch {
-        Write-Host "Failed to execute main.ps1: $_" -ForegroundColor Red
+        # Attempt to execute main.ps1
+        try {
+            # Change to the script's directory
+            Set-Location -Path (Split-Path -Path $FullPath -Parent)
+
+            # Execute the main.ps1 script
+            & ".\main.ps1"
+
+            Write-Host "Executed main.ps1 successfully." -ForegroundColor Green
+        } catch {
+            Write-Host "Failed to execute main.ps1: $_" -ForegroundColor Red
+        }
     }
 }
 
@@ -51,6 +58,7 @@ try {
         Write-Host "." -NoNewline  # Indicate monitoring is active
     }
 }
+
 finally {
     # Cleanup
     $watcher.EnableRaisingEvents = $false

@@ -38,14 +38,26 @@ shutdown /h /t 0 -- Run hibernate
 ## Windows
 
 * Change to Black Wallpaper
+* Apply all Energy recommendations under System -> Power & Battery
+  * Had to do that for all 3 power modes
 * Create Black screenshot and set for lock screen
-* Disabled all shenenigans, like weather and all (Widgets)
+* Disabled all shenanigans, like weather and all (Widgets)
 * Disabled task view -- ability to create desktops
 * Disabled some startup apps in Task Manager
 * Lower down mouse pointer speed
+* Add a shortcut of Programs from Start Menu
 * Added two fingers as sign-in security option
-* Make sure Windows not asking password right away every time:
+* Make sure Windows not asking password right away every time (15m timeout):
   https://answers.microsoft.com/en-us/windows/forum/all/after-sleep-windows-11-does-not-ask-for-password/ac527b5e-dd84-4edb-a435-03df82aca692.
+
+## Drivers
+
+* CalDigit TS4 -- https://downloads.caldigit.com/,
+
+```powershell
+cd ~\Downloads\
+~\scoop\apps\wget\current\wget.exe https://downloads.caldigit.com/TS4/TS4-Windows-Ethernet-Driver.zip
+```
 
 ## G-Helper
 
@@ -82,6 +94,10 @@ net stop ArmouryCrateControlInterface
 net stop ArmouryCrateSEService
 ```
 
+Reverted back to using Crate again. 
+
+* Disabled splash animation screen
+
 ## NextDNS
 
 Under admin user:
@@ -103,3 +119,10 @@ nextdns.exe install `
 
 * Disable C-V in Windows-Terminal
 * Add MSI Afterburner to scoop packages -- https://github.com/ScoopInstaller/Extras/issues/14186
+   * Tweaked to show only FPS
+      * Override group name, set dot symbol
+      * Under show on-screen display tweak ... Options
+        * Sizes library set both to 0%
+        * Value alignment set Frame rate to default
+* Optimize Windows components uninstall/disable services and other not needed stuff
+* Configure Alt <-> Win key swap (Probably in autohotkey)

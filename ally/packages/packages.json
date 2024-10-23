@@ -1,0 +1,41 @@
+{
+  "scoop": [
+    "7zip",
+    "autohotkey",
+    "bat",
+    "bitwarden",
+    "cacert",
+    "chromium",
+    "crystaldiskinfo",
+    "crystaldiskmark",
+    "discord",
+    "duf",
+    "dust",
+    "exiftool",
+    "firefox",
+    "fzf",
+    "gh",
+    "git",
+    "gnupg",
+    "hwinfo",
+    "magic-wormhole",
+    "mpv",
+    "neovim",
+    "nextdns",
+    "nodejs",
+    "ntop",
+    "sfsu",
+    "syncthing",
+    "ventoy",
+    "wget",
+    "windows-terminal",
+    "yt-dlp"
+  ],
+  "arbitrary": [
+    {
+      "name": "Cursor",
+      "url": "https://downloader.cursor.sh/windows/nsis/x64",
+      "fileName": "Cursor Setup - x64.exe"
+    }
+  ]
+}
