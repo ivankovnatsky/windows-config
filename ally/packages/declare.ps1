@@ -33,17 +33,10 @@ function Get-StateFromJson($filePath) {
 
     # Ensure all required properties exist and are arrays
     $requiredProperties = @('scoop', 'arbitrary', 'nodejs')
-    $updated = $false
     foreach ($prop in $requiredProperties) {
         if (-not ($state.PSObject.Properties.Name -contains $prop) -or $null -eq $state.$prop) {
             $state | Add-Member -NotePropertyName $prop -NotePropertyValue @() -Force
-            $updated = $true
         }
-    }
-
-    if ($updated) {
-        $state | ConvertTo-Json -Depth 4 | Set-Content $filePath
-        Write-Host "State file updated with missing properties." -ForegroundColor Yellow
     }
 
     return $state
@@ -72,15 +65,91 @@ function Uninstall-ScoopPackage($package) {
 # Function to install arbitrary package
 function Install-ArbitraryPackage($package) {
     Write-Host "Installing arbitrary package: $($package.name)" -ForegroundColor Cyan
+    Write-Host "Package details: $(ConvertTo-Json $package)" -ForegroundColor Yellow  # Debug output
+    
     $outputFile = Join-Path $env:TEMP $package.fileName
 
     try {
-        Invoke-WebRequest -Uri $package.url -OutFile $outputFile
-        Start-Process -FilePath $outputFile -Wait
-        Remove-Item -Path $outputFile -Force
-        return $true
+        Write-Host "Downloading from: $($package.url)"
+        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" "$($package.url)" --output-document="$outputFile"
+        if ($LASTEXITCODE -ne 0) {
+            throw "wget failed with exit code $LASTEXITCODE"
+        }
+        
+        if (Test-Path $outputFile) {
+            Write-Host "Starting installation from: $outputFile"
+            Start-Process -FilePath $outputFile -Wait -ArgumentList "/S"
+            Remove-Item -Path $outputFile -Force
+            return $true
+        } else {
+            throw "Downloaded file not found at: $outputFile"
+        }
     } catch {
         Write-Error "Failed to install $($package.name): $_"
+        return $false
+    }
+}
+
+# Function to uninstall arbitrary package
+function Uninstall-ArbitraryPackage($packageName) {
+    $uninstallKeys = @(
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*"
+        "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*"
+    )
+
+    $app = Get-ItemProperty $uninstallKeys | 
+        Where-Object { $_.DisplayName -like "*$packageName*" } |
+        Select-Object -First 1
+
+    if ($app) {
+        Write-Host "Uninstalling $($app.DisplayName)..." -ForegroundColor Cyan
+        $uninstallString = $app.UninstallString
+
+        Write-Host "Uninstall string: $uninstallString" -ForegroundColor Yellow
+
+        if ($uninstallString -like '*.exe*') {
+            # Parse the uninstall string to separate the executable and its arguments
+            $uninstallPath = ($uninstallString -split '"')[1]
+            $uninstallArgs = ($uninstallString -split '"')[2].Trim()
+
+            Write-Host "Uninstall path: $uninstallPath" -ForegroundColor Yellow
+            Write-Host "Uninstall args: $uninstallArgs" -ForegroundColor Yellow
+
+            # Check if the file exists
+            if (Test-Path $uninstallPath) {
+                Write-Host "Uninstaller found at: $uninstallPath" -ForegroundColor Green
+            } else {
+                Write-Host "Uninstaller not found at: $uninstallPath" -ForegroundColor Red
+                return $false
+            }
+
+            # Add silent uninstall argument if not present
+            if ($uninstallArgs -notlike '*silent*' -and $uninstallArgs -notlike '*/S*') {
+                $uninstallArgs += ' /S'
+            }
+
+            Write-Host "Executing: $uninstallPath $uninstallArgs" -ForegroundColor Yellow
+            try {
+                Start-Process -FilePath $uninstallPath -ArgumentList $uninstallArgs -Wait -NoNewWindow
+                return $LASTEXITCODE -eq 0
+            } catch {
+                Write-Host "Error executing uninstaller: $_" -ForegroundColor Red
+                return $false
+            }
+        } else {
+            # Handle MSI uninstallation if needed
+            Write-Host "Executing: msiexec.exe /x $($app.PSChildName) /qn" -ForegroundColor Yellow
+            try {
+                Start-Process -FilePath "msiexec.exe" -ArgumentList "/x $($app.PSChildName) /qn" -Wait -NoNewWindow
+                return $LASTEXITCODE -eq 0
+            } catch {
+                Write-Host "Error executing MSI uninstaller: $_" -ForegroundColor Red
+                return $false
+            }
+        }
+    } else {
+        Write-Host "Package $packageName not found." -ForegroundColor Yellow
         return $false
     }
 }
@@ -92,49 +161,88 @@ function Install-NodejsPackage($package) {
     return $LASTEXITCODE -eq 0
 }
 
+# Function to uninstall Node.js global package
+function Uninstall-NodejsPackage($package) {
+    Write-Host "Uninstalling Node.js global package: $package" -ForegroundColor Cyan
+    npm uninstall $package -g
+    return $LASTEXITCODE -eq 0
+}
+
 # Main script
 try {
     $packages = Get-PackagesFromJson $packagesFile
     $state = Get-StateFromJson $stateFile
 
-    # Process Scoop packages
-    $desiredScoopPackages = $packages.scoop
-    $installedScoopPackages = $state.scoop | ForEach-Object { $_.name }
-
-    $scoopPackagesToInstall = $desiredScoopPackages | Where-Object { $_ -notin $installedScoopPackages }
-    $scoopPackagesToUninstall = $installedScoopPackages | Where-Object { $_ -notin $desiredScoopPackages }
-
-    foreach ($package in $scoopPackagesToInstall) {
-        if (Install-ScoopPackage $package) {
-            $state.scoop += @{ name = $package; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
-        }
-    }
-
-    foreach ($package in $scoopPackagesToUninstall) {
-        if (Uninstall-ScoopPackage $package) {
-            $state.scoop = $state.scoop | Where-Object { $_.name -ne $package }
-        }
-    }
-
-    # Process arbitrary packages
-    foreach ($package in $packages.arbitrary) {
-        $installedPackage = $state.arbitrary | Where-Object { $_.name -eq $package.name }
-        if (-not $installedPackage) {
-            if (Install-ArbitraryPackage $package) {
-                $state.arbitrary += @{ name = $package.name; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
+    # Process all package types
+    @('scoop', 'arbitrary', 'nodejs') | ForEach-Object {
+        $packageType = $_
+        Write-Host "Processing $packageType packages..." -ForegroundColor Cyan
+        
+        # Handle different package formats
+        if ($packageType -eq 'arbitrary') {
+            $desiredPackages = $packages.$packageType
+            $installedPackages = $state.$packageType
+            
+            # Find packages to uninstall (installed but not in desired)
+            $packagesToUninstall = $installedPackages | Where-Object {
+                $installedName = $_.name
+                -not ($desiredPackages | Where-Object { $_.name -eq $installedName })
             }
-        }
-    }
-
-    # Process Node.js global packages
-    $desiredNodejsPackages = $packages.nodejs
-    $installedNodejsPackages = $state.nodejs | ForEach-Object { $_.name }
-
-    $nodejsPackagesToInstall = $desiredNodejsPackages | Where-Object { $_ -notin $installedNodejsPackages }
-
-    foreach ($package in $nodejsPackagesToInstall) {
-        if (Install-NodejsPackage $package) {
-            $state.nodejs += @{ name = $package; installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss" }
+            
+            # Handle installations
+            foreach ($package in $desiredPackages) {
+                if (-not ($installedPackages | Where-Object { $_.name -eq $package.name })) {
+                    Write-Host "Installing $packageType package: $($package.name)" -ForegroundColor Yellow
+                    $installResult = Install-ArbitraryPackage $package
+                    if ($installResult) {
+                        $state.$packageType += @{ 
+                            name = $package.name
+                            installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                        }
+                    }
+                }
+            }
+            
+            # Handle uninstallations
+            foreach ($package in $packagesToUninstall) {
+                Write-Host "Uninstalling $packageType package: $($package.name)" -ForegroundColor Yellow
+                $uninstallResult = Uninstall-ArbitraryPackage $package.name
+                if ($uninstallResult) {
+                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+                }
+            }
+        } else {
+            # Handle scoop and nodejs packages as before
+            $desiredPackages = $packages.$packageType
+            $installedPackages = $state.$packageType | ForEach-Object { $_.name }
+            
+            $packagesToInstall = $desiredPackages | Where-Object { $_ -notin $installedPackages }
+            $packagesToUninstall = $installedPackages | Where-Object { $_ -notin $desiredPackages }
+            
+            foreach ($package in $packagesToInstall) {
+                Write-Host "Installing $packageType package: $package" -ForegroundColor Yellow
+                $installResult = switch ($packageType) {
+                    'scoop' { Install-ScoopPackage $package }
+                    'nodejs' { Install-NodejsPackage $package }
+                }
+                if ($installResult) {
+                    $state.$packageType += @{ 
+                        name = $package
+                        installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                    }
+                }
+            }
+            
+            foreach ($package in $packagesToUninstall) {
+                Write-Host "Uninstalling $packageType package: $package" -ForegroundColor Yellow
+                $uninstallResult = switch ($packageType) {
+                    'scoop' { Uninstall-ScoopPackage $package }
+                    'nodejs' { Uninstall-NodejsPackage $package }
+                }
+                if ($uninstallResult) {
+                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package })
+                }
+            }
         }
     }
 
@@ -144,5 +252,6 @@ try {
     Write-Host "All packages processed." -ForegroundColor Green
 } catch {
     Write-Error "An error occurred during script execution: $_"
+    Write-Error "Stack Trace: $($_.ScriptStackTrace)"
     exit 1
 }
