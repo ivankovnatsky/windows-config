@@ -65,7 +65,6 @@ function Uninstall-ScoopPackage($package) {
 # Function to install arbitrary package
 function Install-ArbitraryPackage($package) {
     Write-Host "Installing arbitrary package: $($package.name)" -ForegroundColor Cyan
-    Write-Host "Package details: $(ConvertTo-Json $package)" -ForegroundColor Yellow  # Debug output
     
     $outputFile = Join-Path $env:TEMP $package.fileName
 
