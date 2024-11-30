@@ -1,5 +1,5 @@
 {
-    "lastUpdated":  "2024-10-23 17:07:46",
+    "lastUpdated":  "2024-11-30 16:52:16",
     "scoop":  [
                   {
                       "name":  "7zip",
@@ -124,6 +124,14 @@
                   {
                       "name":  "delta",
                       "installedOn":  "2024-10-23 17:07:46"
+                  },
+                  {
+                      "name":  "aria2",
+                      "installedOn":  "2024-11-24 09:37:34"
+                  },
+                  {
+                      "name":  "rclone",
+                      "installedOn":  "2024-11-30 16:52:16"
                   }
               ],
     "nodejs":  [

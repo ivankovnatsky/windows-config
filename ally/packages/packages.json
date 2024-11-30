@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "aria2",
     "autohotkey",
     "bat",
     "bitwarden",
@@ -28,6 +29,7 @@
     "sfsu",
     "syncthing",
     "ventoy",
+    "rclone",
     "wget",
     "windows-terminal",
     "yt-dlp"
