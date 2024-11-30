@@ -3,7 +3,7 @@ $sourceDir = "$env:USERPROFILE"  # Home directory
 $backupRoot = [System.IO.Path]::GetTempPath()  # Temp directory
 $backupFile = Join-Path $backupRoot "$env:USERNAME.zip"
 $rcloneConfig = "$env:USERPROFILE\.config\rclone\rclone.conf"
-$uploadPath = "Machines/$env:COMPUTERNAME/Users/$env:USERNAME.zip"
+$uploadPath = "Machines/$env:COMPUTERNAME/Users/$env:USERNAME"
 
 # Clean up any existing backup file
 if (Test-Path $backupFile) {
@@ -26,6 +26,31 @@ function Create-Backup {
         $excludes = @(
             "scoop",
             "AppData\Local\AMD",
+            "AppData\Local\Microsoft",              # All Windows-specific data
+            "AppData\Local\Mozilla\Firefox",        # Firefox local data
+            "AppData\Roaming\Mozilla\Firefox",      # Firefox profile data
+            "AppData\Local\Steam\htmlcache",        # Steam browser cache
+            "AppData\Local\Packages",               # Windows Store apps data
+            "AppData\Local\Programs\cursor",        # Cursor editor
+            "AppData\Roaming\Cursor",               # Cursor editor data
+            "AppData\Local\Temp",                   # All temp files
+            "AppData\Roaming\asus_framework",       # ASUS software files
+            "NTUSER.DAT",                          # Windows user profile
+            "ntuser.dat.LOG*",                     # Windows profile logs
+            "AppData\Local\Application Data",
+            "AppData\Local\History",
+            "AppData\Local\ElevatedDiagnostics",
+            "AppData\Local\Temporary Internet Files",
+            "Application Data",
+            "Cookies",
+            "Local Settings",
+            "My Documents",
+            "NetHood",
+            "PrintHood",
+            "Recent",
+            "SendTo",
+            "Start Menu",
+            "Templates",
             "Documents\My Music",
             "Documents\My Pictures",
             "Documents\My Videos"
@@ -34,7 +59,7 @@ function Create-Backup {
         $arguments = @(
             "a",           # Add to archive
             "-tzip",       # ZIP format
-            "-mx=5",       # Normal compression
+            "-mx=0",       # Store only, no compression (changed from 5)
             "-r",          # Recursive
             "-y",          # Say yes to all queries
             "-ssw",        # Compress files open for writing
@@ -44,11 +69,14 @@ function Create-Backup {
 
         $process = Start-Process -FilePath "7z" -ArgumentList $arguments -NoNewWindow -Wait -PassThru
         
-        # Modified exit code handling
+        # Modified exit code handling to treat warnings as success
         switch ($process.ExitCode) {
             0 { Write-Host "Archive created successfully with no warnings." }
             1 { Write-Host "Archive created successfully with some files skipped." }
-            2 { Write-Host "Some files could not be accessed (in use or permissions)." }
+            2 { 
+                Write-Host "Archive created with some files skipped (locked files or permissions)."
+                return $true  # Still consider this a success
+            }
             default { throw "7-Zip failed with exit code $($process.ExitCode)" }
         }
         
@@ -70,6 +98,7 @@ function Create-Backup {
 
 function Upload-Backup {
     Write-Host "Starting upload to Google Drive..."
+    Write-Host "Upload destination: drive_Crypt:$uploadPath"
     
     try {
         # Check if rclone is available in PATH
@@ -85,6 +114,7 @@ function Upload-Backup {
         # Upload using rclone
         Write-Host "Uploading backup file..."
         $process = Start-Process -FilePath "rclone" -ArgumentList @(
+            "copy",
             "--config",
             "`"$rcloneConfig`"",
             "--progress",
