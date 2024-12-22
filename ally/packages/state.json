@@ -1,5 +1,5 @@
 {
-    "lastUpdated":  "2024-11-30 16:52:16",
+    "lastUpdated":  "2024-12-22 19:25:13",
     "scoop":  [
                   {
                       "name":  "7zip",
@@ -144,6 +144,16 @@
                       {
                           "name":  "Cursor",
                           "installedOn":  "2024-10-23 17:06:26"
+                      },
+                      {
+                          "name":  "EldenRingSaveCopier",
+                          "installedOn":  "2024-12-22 19:19:23"
                       }
-                  ]
+                  ],
+    "copy":  [
+                 {
+                     "name":  "EldenRingSaveCopier",
+                     "installedOn":  "2024-12-22 19:25:13"
+                 }
+             ]
 }

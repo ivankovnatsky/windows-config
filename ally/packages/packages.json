@@ -41,6 +41,13 @@
       "fileName": "Cursor Setup - x64.exe"
     }
   ],
+  "copy": [
+    {
+      "name": "EldenRingSaveCopier",
+      "url": "https://github.com/BenGrn/EldenRingSaveCopier/releases/download/v0.0.3-alpha/EldenRingSaveCopy.exe",
+      "fileName": "EldenRingSaveCopy.exe"
+    }
+  ],
   "nodejs": [
     "webtorrent-cli"
   ]

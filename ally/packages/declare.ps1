@@ -8,6 +8,7 @@ function Get-PackagesFromJson($filePath) {
     return @{
         scoop = $content.scoop
         arbitrary = $content.arbitrary
+        copy = $content.copy
         nodejs = $content.nodejs
     }
 }
@@ -27,12 +28,13 @@ function Get-StateFromJson($filePath) {
             lastUpdated = $null
             scoop = @()
             arbitrary = @()
+            copy = @()
             nodejs = @()
         }
     }
 
     # Ensure all required properties exist and are arrays
-    $requiredProperties = @('scoop', 'arbitrary', 'nodejs')
+    $requiredProperties = @('scoop', 'arbitrary', 'copy', 'nodejs')
     foreach ($prop in $requiredProperties) {
         if (-not ($state.PSObject.Properties.Name -contains $prop) -or $null -eq $state.$prop) {
             $state | Add-Member -NotePropertyName $prop -NotePropertyValue @() -Force
@@ -167,13 +169,46 @@ function Uninstall-NodejsPackage($package) {
     return $LASTEXITCODE -eq 0
 }
 
+# Function to install copy package
+function Install-CopyPackage($package) {
+    Write-Host "Copying package: $($package.name)" -ForegroundColor Cyan
+    
+    $outputFile = Join-Path $env:TEMP $package.fileName
+    $binPath = Join-Path $env:USERPROFILE "Bin"
+    
+    try {
+        # Create Bin directory if it doesn't exist
+        if (-not (Test-Path $binPath)) {
+            New-Item -ItemType Directory -Path $binPath -Force | Out-Null
+        }
+
+        $finalPath = Join-Path $binPath $package.fileName
+        
+        Write-Host "Downloading from: $($package.url)"
+        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" "$($package.url)" --output-document="$outputFile"
+        if ($LASTEXITCODE -ne 0) {
+            throw "wget failed with exit code $LASTEXITCODE"
+        }
+        
+        if (Test-Path $outputFile) {
+            Move-Item -Path $outputFile -Destination $finalPath -Force
+            return $true
+        } else {
+            throw "Downloaded file not found at: $outputFile"
+        }
+    } catch {
+        Write-Error "Failed to copy $($package.name): $_"
+        return $false
+    }
+}
+
 # Main script
 try {
     $packages = Get-PackagesFromJson $packagesFile
     $state = Get-StateFromJson $stateFile
 
     # Process all package types
-    @('scoop', 'arbitrary', 'nodejs') | ForEach-Object {
+    @('scoop', 'arbitrary', 'copy', 'nodejs') | ForEach-Object {
         $packageType = $_
         Write-Host "Processing $packageType packages..." -ForegroundColor Cyan
         
@@ -207,6 +242,39 @@ try {
                 Write-Host "Uninstalling $packageType package: $($package.name)" -ForegroundColor Yellow
                 $uninstallResult = Uninstall-ArbitraryPackage $package.name
                 if ($uninstallResult) {
+                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+                }
+            }
+        } elseif ($packageType -eq 'copy') {
+            $desiredPackages = $packages.$packageType
+            $installedPackages = $state.$packageType
+            
+            # Find packages to uninstall (installed but not in desired)
+            $packagesToUninstall = $installedPackages | Where-Object {
+                $installedName = $_.name
+                -not ($desiredPackages | Where-Object { $_.name -eq $installedName })
+            }
+            
+            # Handle installations
+            foreach ($package in $desiredPackages) {
+                if (-not ($installedPackages | Where-Object { $_.name -eq $package.name })) {
+                    Write-Host "Installing $packageType package: $($package.name)" -ForegroundColor Yellow
+                    $installResult = Install-CopyPackage $package
+                    if ($installResult) {
+                        $state.$packageType += @{ 
+                            name = $package.name
+                            installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                        }
+                    }
+                }
+            }
+            
+            # Handle uninstallations (simply delete the file from Bin directory)
+            foreach ($package in $packagesToUninstall) {
+                $binPath = Join-Path $env:USERPROFILE "Bin"
+                $filePath = Join-Path $binPath $package.fileName
+                if (Test-Path $filePath) {
+                    Remove-Item -Path $filePath -Force
                     $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
                 }
             }
