@@ -1,9 +1,60 @@
+# Check for --help in raw arguments
+if ($MyInvocation.UnboundArguments -contains '--help' -or 
+    $MyInvocation.UnboundArguments -contains '-help' -or 
+    $MyInvocation.UnboundArguments -contains '-h') {
+    Write-Host @"
+Backup Home Directory Script
+Usage: backup-home.ps1 [options]
+
+Options:
+    -h, -help, --help      Show this help message
+    
+Description:
+    Creates a ZIP archive of your home directory and uploads it to Google Drive.
+    The backup excludes various system and cache folders.
+    
+Backup Location:
+    Local: $([System.IO.Path]::GetTempPath())
+    Remote: drive_Crypt:Machines/`$env:COMPUTERNAME/Users/`$env:USERNAME
+
+Requirements:
+    - 7-Zip (available in PATH)
+    - rclone (available in PATH with configured drive_Crypt remote)
+"@
+    exit 0
+}
+
 # Configuration
 $sourceDir = "$env:USERPROFILE"  # Home directory
 $backupRoot = [System.IO.Path]::GetTempPath()  # Temp directory
 $backupFile = Join-Path $backupRoot "$env:USERNAME.zip"
 $rcloneConfig = "$env:USERPROFILE\.config\rclone\rclone.conf"
+$rcloneRemote = "drive_Crypt"
 $uploadPath = "Machines/$env:COMPUTERNAME/Users/$env:USERNAME"
+
+# Show help if requested via PowerShell parameters or --help
+if ($h -or ($MyInvocation.UnboundArguments -contains '--help')) {
+    Write-Host @"
+Backup Home Directory Script
+Usage: backup-home.ps1 [options]
+
+Options:
+    -h, -help, --help      Show this help message
+    
+Description:
+    Creates a ZIP archive of your home directory and uploads it to Google Drive.
+    The backup excludes various system and cache folders.
+    
+Backup Location:
+    Local: $([System.IO.Path]::GetTempPath())
+    Remote: ${rcloneRemote}:Machines/`$env:COMPUTERNAME/Users/`$env:USERNAME
+
+Requirements:
+    - 7-Zip (available in PATH)
+    - rclone (available in PATH with configured $rcloneRemote remote)
+"@
+    exit 0
+}
 
 # Clean up any existing backup file
 if (Test-Path $backupFile) {
