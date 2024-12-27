@@ -2,26 +2,13 @@
 
 ## Terminal
 
-Install scoop:
+Install packages:
 
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+.\packages\declare.ps1
 ```
 
-```powershell
-scoop install git
-scoop bucket add extas
-```
-
-This is needed once:
-
-```powershell
-scoop install windowsdesktop-runtime
-scoop uninstall windowsdesktop-runtime
-```
-
-Enable hibernate
+Enable hibernate:
 
 ```powershell
 powercfg /hibernate on

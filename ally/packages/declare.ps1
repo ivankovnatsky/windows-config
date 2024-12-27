@@ -1,3 +1,58 @@
+# Check if running as admin
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+if ($isAdmin) {
+    # Admin-only tasks
+    Write-Host "Running admin tasks..." -ForegroundColor Cyan
+    
+    # Check current execution policy before trying to set it
+    $currentPolicy = Get-ExecutionPolicy
+    if ($currentPolicy -ne 'Bypass' -and $currentPolicy -ne 'Unrestricted') {
+        Write-Host "Setting execution policy..." -ForegroundColor Cyan
+        Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+    } else {
+        Write-Host "Execution policy already set to $currentPolicy" -ForegroundColor Green
+    }
+
+    # Install runtime (needs admin)
+    Write-Host "Installing .NET Desktop Runtime..." -ForegroundColor Cyan
+    scoop install windowsdesktop-runtime
+    scoop uninstall windowsdesktop-runtime
+    
+    exit # Exit admin context
+}
+
+# If we're not admin, start admin instance for admin tasks first
+Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs -Wait
+
+# Continue with non-admin tasks
+Write-Host "Running non-admin tasks..." -ForegroundColor Cyan
+
+# Check if Scoop is already installed
+if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Write-Host "Installing Scoop..." -ForegroundColor Cyan
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+} else {
+    Write-Host "Scoop is already installed." -ForegroundColor Green
+}
+
+# Check if git is installed via scoop
+if (!(Test-Path "$env:USERPROFILE\scoop\apps\git")) {
+    Write-Host "Installing git..." -ForegroundColor Cyan
+    scoop install git
+} else {
+    Write-Host "Git is already installed via Scoop." -ForegroundColor Green
+}
+
+# Check if extras bucket is added
+$extrasBucket = scoop bucket list | Where-Object { $_ -match 'extras' }
+if (!$extrasBucket) {
+    Write-Host "Adding extras bucket..." -ForegroundColor Cyan
+    scoop bucket add extras
+} else {
+    Write-Host "Extras bucket is already added." -ForegroundColor Green
+}
+
 # Define paths
 $packagesFile = Join-Path $PSScriptRoot "packages.json"
 $stateFile = Join-Path $PSScriptRoot "state.json"

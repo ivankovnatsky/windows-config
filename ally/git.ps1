@@ -15,6 +15,7 @@ $gitConfig = @"
 [core]
 	editor = "nvim"
 	filemode = true
+	autocrlf = input
 
 [credential "https://gist.github.com"]
 	helper = "C:/Users/crust/scoop/shims/gh.exe auth git-credential"
