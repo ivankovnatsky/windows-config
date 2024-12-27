@@ -1,5 +1,5 @@
 {
-    "lastUpdated":  "2024-12-27 14:34:06",
+    "lastUpdated":  "2024-12-27 14:52:39",
     "scoop":  [
                   {
                       "name":  "7zip",
@@ -136,6 +136,10 @@
                   {
                       "name":  "ghq",
                       "installedOn":  "2024-12-27 14:32:40"
+                  },
+                  {
+                      "name":  "ripgrep",
+                      "installedOn":  "2024-12-27 14:52:39"
                   }
               ],
     "nodejs":  [
