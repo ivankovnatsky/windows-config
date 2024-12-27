@@ -1,35 +1,41 @@
-# Check if running as admin
-$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+# Check if Scoop is already installed
+$scoopInstalled = Get-Command scoop -ErrorAction SilentlyContinue
 
-if ($isAdmin) {
-    # Admin-only tasks
-    Write-Host "Running admin tasks..." -ForegroundColor Cyan
-    
-    # Check current execution policy before trying to set it
-    $currentPolicy = Get-ExecutionPolicy
-    if ($currentPolicy -ne 'Bypass' -and $currentPolicy -ne 'Unrestricted') {
-        Write-Host "Setting execution policy..." -ForegroundColor Cyan
-        Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
-    } else {
-        Write-Host "Execution policy already set to $currentPolicy" -ForegroundColor Green
+# Only run admin tasks if Scoop isn't installed
+if (!$scoopInstalled) {
+    # Check if running as admin
+    $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+    if ($isAdmin) {
+        # Admin-only tasks
+        Write-Host "Running admin tasks..." -ForegroundColor Cyan
+        
+        # Check current execution policy before trying to set it
+        $currentPolicy = Get-ExecutionPolicy
+        if ($currentPolicy -ne 'Bypass' -and $currentPolicy -ne 'Unrestricted') {
+            Write-Host "Setting execution policy..." -ForegroundColor Cyan
+            Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+        } else {
+            Write-Host "Execution policy already set to $currentPolicy" -ForegroundColor Green
+        }
+
+        # Install runtime (needs admin)
+        Write-Host "Installing .NET Desktop Runtime..." -ForegroundColor Cyan
+        scoop install windowsdesktop-runtime
+        scoop uninstall windowsdesktop-runtime
+        
+        exit # Exit admin context
     }
 
-    # Install runtime (needs admin)
-    Write-Host "Installing .NET Desktop Runtime..." -ForegroundColor Cyan
-    scoop install windowsdesktop-runtime
-    scoop uninstall windowsdesktop-runtime
-    
-    exit # Exit admin context
+    # If we're not admin and Scoop isn't installed, start admin instance for admin tasks first
+    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs -Wait
 }
-
-# If we're not admin, start admin instance for admin tasks first
-Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs -Wait
 
 # Continue with non-admin tasks
 Write-Host "Running non-admin tasks..." -ForegroundColor Cyan
 
-# Check if Scoop is already installed
-if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
+# Install Scoop if not already installed
+if (!$scoopInstalled) {
     Write-Host "Installing Scoop..." -ForegroundColor Cyan
     Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 } else {
