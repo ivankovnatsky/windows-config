@@ -1,0 +1,36 @@
+# Define local profile path
+$documentsPath = [Environment]::GetFolderPath('MyDocuments')
+$profilePath = Join-Path $documentsPath "WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+
+Write-Host "Setting up profile at: $profilePath"
+
+# Create the profile directory if it doesn't exist
+$profileDir = Split-Path $profilePath -Parent
+Write-Host "Creating profile directory at: $profileDir"
+
+if (!(Test-Path -Path $profileDir)) {
+    New-Item -ItemType Directory -Path $profileDir -Force
+    Write-Host "Created directory"
+}
+
+# Create the profile file if it doesn't exist
+Write-Host "Creating profile file"
+if (!(Test-Path -Path $profilePath)) {
+    New-Item -ItemType File -Path $profilePath -Force
+    Write-Host "Created profile file"
+}
+
+# Create the profile content with just the git alias
+$content = @"
+# Git alias
+Set-Alias -Name g -Value git
+"@
+
+Set-Content -Path $profilePath -Value $content -Force
+Write-Host "Wrote content to profile"
+
+Write-Host "`nProfile content:"
+Get-Content $profilePath
+
+Write-Host "`nTrying to load profile..."
+. $profilePath 
