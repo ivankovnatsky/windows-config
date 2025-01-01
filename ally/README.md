@@ -1,5 +1,21 @@
 # Ally
 
+## Install Scoop
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+```
+
+## Run syncthing
+
+```powershell
+syncthing
+```
+
+Get the current repo from sibling machine.
+
+
 ## Terminal
 
 Install packages:
