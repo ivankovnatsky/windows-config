@@ -105,6 +105,28 @@ function Get-StateFromJson($filePath) {
     return $state
 }
 
+# Function to initialize state with existing packages
+function Initialize-StateWithExisting {
+    param($state)
+
+    # Get existing scoop packages using export instead of list
+    $existingScoopPackages = (scoop export | ConvertFrom-Json).apps | ForEach-Object {
+        @{
+            name = $_.Name
+            installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        }
+    }
+    
+    # Update state with existing packages if they're not already tracked
+    foreach ($package in $existingScoopPackages) {
+        if ($package -and -not ($state.scoop | Where-Object { $_.name -eq $package.name })) {
+            $state.scoop += $package
+        }
+    }
+
+    return $state
+}
+
 # Function to update state file
 function Update-StateFile($state) {
     $state.lastUpdated = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -114,6 +136,12 @@ function Update-StateFile($state) {
 # Function to install scoop package
 function Install-ScoopPackage($package) {
     Write-Host "Installing Scoop package: $package" -ForegroundColor Cyan
+    # Check if package is already installed
+    $installed = (scoop export | ConvertFrom-Json).apps.Name -contains $package
+    if ($installed) {
+        Write-Host "Package $package is already installed" -ForegroundColor Green
+        return $true
+    }
     scoop install $package
     return $LASTEXITCODE -eq 0
 }
@@ -267,6 +295,7 @@ function Install-CopyPackage($package) {
 try {
     $packages = Get-PackagesFromJson $packagesFile
     $state = Get-StateFromJson $stateFile
+    $state = Initialize-StateWithExisting $state
 
     # Process all package types
     @('scoop', 'arbitrary', 'copy', 'nodejs') | ForEach-Object {

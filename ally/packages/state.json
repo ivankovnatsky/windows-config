@@ -11,7 +11,7 @@
                           "installedOn":  "2025-01-01 10:26:01"
                       }
                   ],
-    "lastUpdated":  "2025-01-01 10:26:34",
+    "lastUpdated":  "2025-01-01 20:58:58",
     "copy":  [
 
              ],
@@ -19,6 +19,142 @@
                   {
                       "name":  "yt-dlp",
                       "installedOn":  "2025-01-01 10:25:40"
+                  },
+                  {
+                      "name":  "7zip",
+                      "installedOn":  "2025-01-01 18:41:11"
+                  },
+                  {
+                      "name":  "aria2",
+                      "installedOn":  "2025-01-01 18:41:11"
+                  },
+                  {
+                      "name":  "autohotkey",
+                      "installedOn":  "2025-01-01 18:41:11"
+                  },
+                  {
+                      "name":  "bat",
+                      "installedOn":  "2025-01-01 18:41:11"
+                  },
+                  {
+                      "name":  "bitwarden",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "cacert",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "chromium",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "crystaldiskinfo",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "crystaldiskmark",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "delta",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "discord",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "dust",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "exiftool",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "firefox",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "fzf",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "gh",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "ghq",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "git",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "gnupg",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "hwinfo",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "magic-wormhole",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "mpv",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "neovim",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "nextdns",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "nodejs",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "ntop",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "sfsu",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "syncthing",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "ventoy",
+                      "installedOn":  "2025-01-01 18:41:12"
+                  },
+                  {
+                      "name":  "rclone",
+                      "installedOn":  "2025-01-01 18:41:13"
+                  },
+                  {
+                      "name":  "ripgrep",
+                      "installedOn":  "2025-01-01 18:41:13"
+                  },
+                  {
+                      "name":  "wget",
+                      "installedOn":  "2025-01-01 18:41:13"
+                  },
+                  {
+                      "name":  "windows-terminal",
+                      "installedOn":  "2025-01-01 18:41:13"
+                  },
+                  {
+                      "name":  "duf",
+                      "installedOn":  "2025-01-01 20:56:40"
                   }
               ]
 }
