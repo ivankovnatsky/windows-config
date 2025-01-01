@@ -22,3 +22,14 @@ $cursorConfig = @"
 "@
 
 $cursorConfig | Out-File -FilePath "$HOME\AppData\Roaming\Cursor\User\settings.json" -Encoding utf8 
+
+# Install extensions using the CLI command directly
+$extensions = @(
+    "ms-vscode.powershell",
+    "vscodevim.vim"
+)
+
+foreach ($extension in $extensions) {
+    Write-Host "Installing extension: $extension"
+    Start-Process -FilePath "cursor" -ArgumentList "--install-extension $extension" -Wait
+} 
