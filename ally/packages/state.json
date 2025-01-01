@@ -1,167 +1,24 @@
 {
-    "lastUpdated":  "2024-12-27 14:52:39",
-    "scoop":  [
-                  {
-                      "name":  "7zip",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "autohotkey",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "bitwarden",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "cacert",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "chromium",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "crystaldiskinfo",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "crystaldiskmark",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "discord",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "duf",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "dust",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "exiftool",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "firefox",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "fzf",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "gh",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "git",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "gnupg",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "hwinfo",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "magic-wormhole",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "mpv",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "neovim",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "nextdns",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "nodejs",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "ntop",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "sfsu",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "syncthing",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "ventoy",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "wget",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "windows-terminal",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "yt-dlp",
-                      "installedOn":  "2024-10-23 14:48:04"
-                  },
-                  {
-                      "name":  "bat",
-                      "installedOn":  "2024-10-23 15:19:23"
-                  },
-                  {
-                      "name":  "delta",
-                      "installedOn":  "2024-10-23 17:07:46"
-                  },
-                  {
-                      "name":  "aria2",
-                      "installedOn":  "2024-11-24 09:37:34"
-                  },
-                  {
-                      "name":  "rclone",
-                      "installedOn":  "2024-11-30 16:52:16"
-                  },
-                  {
-                      "name":  "ghq",
-                      "installedOn":  "2024-12-27 14:32:40"
-                  },
-                  {
-                      "name":  "ripgrep",
-                      "installedOn":  "2024-12-27 14:52:39"
-                  }
-              ],
     "nodejs":  [
                    {
                        "name":  "webtorrent-cli",
-                       "installedOn":  "2024-10-23 17:07:34"
+                       "installedOn":  "2025-01-01 10:26:34"
                    }
                ],
     "arbitrary":  [
                       {
                           "name":  "Cursor",
-                          "installedOn":  "2024-10-23 17:06:26"
-                      },
-                      {
-                          "name":  "EldenRingSaveCopier",
-                          "installedOn":  "2024-12-22 19:19:23"
+                          "installedOn":  "2025-01-01 10:26:01"
                       }
                   ],
+    "lastUpdated":  "2025-01-01 10:26:34",
     "copy":  [
-                 {
-                     "name":  "EldenRingSaveCopier",
-                     "installedOn":  "2024-12-22 19:25:13"
-                 }
-             ]
+
+             ],
+    "scoop":  [
+                  {
+                      "name":  "yt-dlp",
+                      "installedOn":  "2025-01-01 10:25:40"
+                  }
+              ]
 }
