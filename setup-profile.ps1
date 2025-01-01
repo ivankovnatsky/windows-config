@@ -24,6 +24,9 @@ if (!(Test-Path -Path $profilePath)) {
 $content = @"
 # Git alias
 Set-Alias -Name g -Value git
+
+# Initialize Starship
+Invoke-Expression (&starship init powershell)
 "@
 
 Set-Content -Path $profilePath -Value $content -Force
