@@ -11,7 +11,7 @@
                           "installedOn":  "2025-01-01 10:26:01"
                       }
                   ],
-    "lastUpdated":  "2025-01-01 21:49:34",
+    "lastUpdated":  "2025-01-02 08:38:00",
     "copy":  [
 
              ],
@@ -159,6 +159,14 @@
                   {
                       "name":  "starship",
                       "installedOn":  "2025-01-01 21:49:33"
+                  },
+                  {
+                      "name":  "mingw-winlibs",
+                      "installedOn":  "2025-01-02 08:19:33"
+                  },
+                  {
+                      "name":  "Hack-NF",
+                      "installedOn":  "2025-01-02 08:38:00"
                   }
               ]
 }

@@ -21,7 +21,7 @@ Get the current repo from sibling machine.
 Install packages:
 
 ```powershell
-.\packages\declare.ps1
+.\packages\install.ps1
 ```
 
 Enable hibernate:

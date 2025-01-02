@@ -50,13 +50,18 @@ if (!(Test-Path "$env:USERPROFILE\scoop\apps\git")) {
     Write-Host "Git is already installed via Scoop." -ForegroundColor Green
 }
 
-# Check if extras bucket is added
-$extrasBucket = scoop bucket list | Where-Object { $_ -match 'extras' }
-if (!$extrasBucket) {
-    Write-Host "Adding extras bucket..." -ForegroundColor Cyan
-    scoop bucket add extras
-} else {
-    Write-Host "Extras bucket is already added." -ForegroundColor Green
+# Define required buckets
+$requiredBuckets = @('extras', 'nerd-fonts')
+
+# Check and add required buckets
+foreach ($bucket in $requiredBuckets) {
+    $bucketExists = scoop bucket list | Where-Object { $_ -match $bucket }
+    if (!$bucketExists) {
+        Write-Host "Adding $bucket bucket..." -ForegroundColor Cyan
+        scoop bucket add $bucket
+    } else {
+        Write-Host "$bucket bucket is already added." -ForegroundColor Green
+    }
 }
 
 # Define paths
