@@ -1,16 +1,23 @@
+# Add parameter for custom source directory
+param(
+    [string]$sourcePath,
+    [switch]$h
+)
+
 # Check for --help in raw arguments
 if ($MyInvocation.UnboundArguments -contains '--help' -or 
     $MyInvocation.UnboundArguments -contains '-help' -or 
-    $MyInvocation.UnboundArguments -contains '-h') {
+    $MyInvocation.UnboundArguments -contains '-h' -or $h) {
     Write-Host @"
-Backup Home Directory Script
+Backup Directory Script
 Usage: backup-home.ps1 [options]
 
 Options:
-    -h, -help, --help      Show this help message
+    -h, -help, --help     Show this help message
+    -sourcePath           Specify custom directory to backup (default: user home directory)
     
 Description:
-    Creates a ZIP archive of your home directory and uploads it to Google Drive.
+    Creates a ZIP archive of specified directory (or home directory by default) and uploads it to Google Drive.
     The backup excludes various system and cache folders.
     
 Backup Location:
@@ -25,7 +32,7 @@ Requirements:
 }
 
 # Configuration
-$sourceDir = "$env:USERPROFILE"  # Home directory
+$sourceDir = if ($sourcePath) { $sourcePath } else { "$env:USERPROFILE" }  # Use custom path or default to home directory
 $backupRoot = [System.IO.Path]::GetTempPath()  # Temp directory
 $backupFile = Join-Path $backupRoot "$env:USERNAME.zip"
 $rcloneConfig = "$env:USERPROFILE\.config\rclone\rclone.conf"
@@ -63,10 +70,15 @@ if (Test-Path $backupFile) {
 }
 
 function Create-Backup {
-    Write-Host "Starting backup of home directory..."
+    Write-Host "Starting backup of directory: $sourceDir"
     Write-Host "Backup will be saved to: $backupFile"
 
     try {
+        # Verify source directory exists
+        if (!(Test-Path $sourceDir)) {
+            throw "Source directory does not exist: $sourceDir"
+        }
+
         # Check if 7z is available in PATH
         if (!(Get-Command "7z" -ErrorAction SilentlyContinue)) {
             throw "7z is not found in PATH. Please install 7-Zip first."
