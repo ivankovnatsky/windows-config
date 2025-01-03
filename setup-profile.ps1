@@ -25,6 +25,9 @@ $content = @"
 # Git alias
 Set-Alias -Name g -Value git
 
+# Bat alias for cat
+Set-Alias -Name cat -Value bat
+
 # Initialize Starship
 Invoke-Expression (&starship init powershell)
 "@
