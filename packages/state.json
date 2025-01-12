@@ -11,7 +11,7 @@
                           "installedOn":  "2025-01-01 10:26:01"
                       }
                   ],
-    "lastUpdated":  "2025-01-02 08:38:00",
+    "lastUpdated":  "2025-01-12 20:31:06",
     "copy":  [
 
              ],
@@ -167,6 +167,18 @@
                   {
                       "name":  "Hack-NF",
                       "installedOn":  "2025-01-02 08:38:00"
+                  },
+                  {
+                      "name":  "go",
+                      "installedOn":  "2025-01-12 20:30:18"
+                  },
+                  {
+                      "name":  "golangci-lint",
+                      "installedOn":  "2025-01-12 20:31:02"
+                  },
+                  {
+                      "name":  "make",
+                      "installedOn":  "2025-01-12 20:31:05"
                   }
               ]
 }

@@ -17,6 +17,10 @@
     "firefox",
     "fzf",
     "gh",
+    "go",
+    "golangci-lint",
+    "delve",
+    "gopls",
     "ghq",
     "git",
     "gnupg",
@@ -46,7 +50,7 @@
       "fileName": "Cursor Setup - x64.exe"
     }
   ],
-  "copy": [ ],
+  "copy": [],
   "nodejs": [
     "webtorrent-cli"
   ]
