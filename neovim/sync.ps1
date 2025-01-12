@@ -2,6 +2,34 @@
 $sourceDir = (Join-Path $PSScriptRoot "config").TrimEnd('\')
 $destDir = (Join-Path $env:LOCALAPPDATA "nvim").TrimEnd('\')
 
+# Files to preserve in destination (won't be overwritten or deleted)
+$preserveFiles = @(
+    "lazy-lock.json"      # Package manager lock file
+)
+
+# Before sync, copy preserved files from dest to source if they exist
+foreach ($file in $preserveFiles) {
+    $destFile = Join-Path $destDir $file
+    $sourceFile = Join-Path $sourceDir $file
+    if (Test-Path $destFile) {
+        if (Test-Path $sourceFile) {
+            # Compare file hashes
+            $destHash = (Get-FileHash $destFile).Hash
+            $sourceHash = (Get-FileHash $sourceFile).Hash
+            
+            if ($destHash -ne $sourceHash) {
+                Copy-Item -Path $destFile -Destination $sourceFile -Force
+                Write-Host "Updated preserved file (changed): $file" -ForegroundColor Yellow
+            } else {
+                Write-Host "Skipped preserved file (unchanged): $file" -ForegroundColor Gray
+            }
+        } else {
+            Copy-Item -Path $destFile -Destination $sourceFile -Force
+            Write-Host "Copied new preserved file: $file" -ForegroundColor Green
+        }
+    }
+}
+
 # Create destination directory if it doesn't exist
 if (-not (Test-Path $destDir)) {
     New-Item -ItemType Directory -Path $destDir
@@ -39,9 +67,14 @@ try {
 
     # Remove files that don't exist in source
     foreach ($file in $destFiles) {
-        # Get the relative path by removing the destination directory path
         $relativePath = $file.FullName.Substring($destDir.Length + 1)
         $sourceFile = Join-Path $sourceDir $relativePath
+        
+        # Skip preserved files
+        if ($preserveFiles | Where-Object { $relativePath -like $_ }) {
+            continue
+        }
+        
         if (-not (Test-Path $sourceFile)) {
             Remove-Item $file.FullName -Force
             Write-Host "Removed orphaned file: $relativePath" -ForegroundColor Red
