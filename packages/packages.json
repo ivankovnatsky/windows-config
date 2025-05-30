@@ -48,6 +48,11 @@
       "name": "Cursor",
       "url": "https://downloader.cursor.sh/windows/nsis/x64",
       "fileName": "Cursor Setup - x64.exe"
+    },
+    {
+      "name": "GeForceNOW",
+      "url": "https://download.nvidia.com/gfnpc/GeForceNOW-release.exe",
+      "fileName": "GeForceNOW-release.exe"
     }
   ],
   "copy": [],

@@ -9,9 +9,13 @@
                       {
                           "name":  "Cursor",
                           "installedOn":  "2025-01-01 10:26:01"
+                      },
+                      {
+                          "name":  "GeForceNOW",
+                          "installedOn":  "2025-05-30 07:15:07"
                       }
                   ],
-    "lastUpdated":  "2025-01-12 20:31:06",
+    "lastUpdated":  "2025-05-30 07:15:07",
     "copy":  [
 
              ],
@@ -177,8 +181,8 @@
                       "installedOn":  "2025-01-12 20:31:02"
                   },
                   {
-                      "name":  "make",
-                      "installedOn":  "2025-01-12 20:31:05"
+                      "name":  "delve",
+                      "installedOn":  "2025-05-30 07:14:41"
                   }
               ]
 }
