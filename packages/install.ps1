@@ -1,3 +1,8 @@
+# Get hostname parameter or use system hostname
+param(
+    [string]$Hostname
+)
+
 # Check if Scoop is already installed
 $scoopInstalled = Get-Command scoop -ErrorAction SilentlyContinue
 
@@ -64,9 +69,36 @@ foreach ($bucket in $requiredBuckets) {
     }
 }
 
+# If no hostname is provided, use the system hostname
+if (-not $Hostname) {
+    $Hostname = $env:COMPUTERNAME.ToLower()
+    Write-Host "No hostname provided, using system hostname: $Hostname" -ForegroundColor Yellow
+}
+
 # Define paths
-$packagesFile = Join-Path $PSScriptRoot "packages.json"
-$stateFile = Join-Path $PSScriptRoot "state.json"
+$configDir = Join-Path $PSScriptRoot $Hostname
+
+# If hostname-specific config doesn't exist, check if there's a fallback
+if (-not (Test-Path $configDir)) {
+    Write-Host "Configuration directory for hostname '$Hostname' not found." -ForegroundColor Yellow
+    
+    # List available configuration directories
+    $availableConfigs = Get-ChildItem -Path $PSScriptRoot -Directory | Select-Object -ExpandProperty Name
+    
+    if ($availableConfigs.Count -gt 0) {
+        Write-Host "Available configurations: $($availableConfigs -join ', ')" -ForegroundColor Cyan
+        $configDir = Join-Path $PSScriptRoot $availableConfigs[0]
+        Write-Host "Using '$($availableConfigs[0])' as fallback configuration." -ForegroundColor Yellow
+    } else {
+        Write-Error "No configuration directories found in $PSScriptRoot"
+        exit 1
+    }
+}
+
+$packagesFile = Join-Path $configDir "packages.json"
+$stateFile = Join-Path $configDir "state.json"
+
+Write-Host "Using configuration from: $configDir" -ForegroundColor Cyan
 
 # Function to read packages from JSON file
 function Get-PackagesFromJson($filePath) {
