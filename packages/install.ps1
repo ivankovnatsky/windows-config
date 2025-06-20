@@ -1,7 +1,47 @@
 # Get hostname parameter or use system hostname
 param(
-    [string]$Hostname
+    [string]$Hostname,
+    [switch]$Force,
+    [switch]$Help
 )
+
+# Function to display help information
+function Show-Help {
+    Write-Host "Usage: .\install.ps1 [-Hostname <hostname>] [-Force] [-Help]" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "Parameters:" -ForegroundColor Cyan
+    Write-Host "  -Hostname   : The hostname configuration to use (e.g., 'ally')" -ForegroundColor White
+    Write-Host "                If not specified, your computer's hostname will be used automatically" -ForegroundColor White
+    Write-Host "  -Force      : Skip confirmation prompts for uninstallation" -ForegroundColor White
+    Write-Host "  -Help       : Show this help message" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Available configurations:" -ForegroundColor Cyan
+    $availableConfigs = Get-ChildItem -Path $PSScriptRoot -Directory | Select-Object -ExpandProperty Name
+    foreach ($config in $availableConfigs) {
+        Write-Host "  $config" -ForegroundColor White
+    }
+    Write-Host ""
+    Write-Host "Examples:" -ForegroundColor Cyan
+    Write-Host "  .\install.ps1                     # Uses your computer's hostname" -ForegroundColor White
+    Write-Host "  .\install.ps1 -Hostname ally      # Uses the 'ally' configuration" -ForegroundColor White
+}
+
+# Show help if requested
+if ($Help) {
+    Show-Help
+    exit 0
+}
+
+
+# Check if hostname starts with -- (common mistake from command-line users)
+if ($Hostname -and $Hostname.StartsWith('--')) {
+    Write-Host "Error: Incorrect parameter format" -ForegroundColor Red
+    Write-Host "You provided: '$Hostname'" -ForegroundColor Red
+    Write-Host "PowerShell parameters use a dash prefix (-) not double-dash (--)" -ForegroundColor Yellow
+    Write-Host ""
+    Show-Help
+    exit 1
+}
 
 # Check if Scoop is already installed
 $scoopInstalled = Get-Command scoop -ErrorAction SilentlyContinue
@@ -69,6 +109,8 @@ foreach ($bucket in $requiredBuckets) {
     }
 }
 
+
+
 # If no hostname is provided, use the system hostname
 if (-not $Hostname) {
     $Hostname = $env:COMPUTERNAME.ToLower()
@@ -78,21 +120,12 @@ if (-not $Hostname) {
 # Define paths
 $configDir = Join-Path $PSScriptRoot $Hostname
 
-# If hostname-specific config doesn't exist, check if there's a fallback
+# If hostname-specific config doesn't exist, show error and help information, then exit
 if (-not (Test-Path $configDir)) {
-    Write-Host "Configuration directory for hostname '$Hostname' not found." -ForegroundColor Yellow
-    
-    # List available configuration directories
-    $availableConfigs = Get-ChildItem -Path $PSScriptRoot -Directory | Select-Object -ExpandProperty Name
-    
-    if ($availableConfigs.Count -gt 0) {
-        Write-Host "Available configurations: $($availableConfigs -join ', ')" -ForegroundColor Cyan
-        $configDir = Join-Path $PSScriptRoot $availableConfigs[0]
-        Write-Host "Using '$($availableConfigs[0])' as fallback configuration." -ForegroundColor Yellow
-    } else {
-        Write-Error "No configuration directories found in $PSScriptRoot"
-        exit 1
-    }
+    Write-Host "Error: Configuration directory for hostname '$Hostname' not found." -ForegroundColor Red
+    Write-Host ""
+    Show-Help
+    exit 1
 }
 
 $packagesFile = Join-Path $configDir "packages.json"
@@ -102,12 +135,22 @@ Write-Host "Using configuration from: $configDir" -ForegroundColor Cyan
 
 # Function to read packages from JSON file
 function Get-PackagesFromJson($filePath) {
-    $content = Get-Content -Path $filePath -Raw | ConvertFrom-Json
-    return @{
-        scoop = $content.scoop
-        arbitrary = $content.arbitrary
-        copy = $content.copy
-        nodejs = $content.nodejs
+    if (-not (Test-Path $filePath)) {
+        Write-Error "Package configuration file not found: $filePath"
+        exit 1
+    }
+    
+    try {
+        $content = Get-Content -Path $filePath -Raw | ConvertFrom-Json
+        return @{
+            scoop = $content.scoop
+            arbitrary = $content.arbitrary
+            copy = $content.copy
+            nodejs = $content.nodejs
+        }
+    } catch {
+        Write-Error "Failed to read or parse package configuration file: $_"
+        exit 1
     }
 }
 
@@ -365,11 +408,25 @@ try {
             }
             
             # Handle uninstallations
-            foreach ($package in $packagesToUninstall) {
-                Write-Host "Uninstalling $packageType package: $($package.name)" -ForegroundColor Yellow
-                $uninstallResult = Uninstall-ArbitraryPackage $package.name
-                if ($uninstallResult) {
-                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+            if ($packagesToUninstall.Count -gt 0) {
+                if (-not $Force) {
+                    Write-Host "The following $packageType packages will be uninstalled:" -ForegroundColor Yellow
+                    foreach ($package in $packagesToUninstall) {
+                        Write-Host "  - $($package.name)" -ForegroundColor Red
+                    }
+                    $confirmation = Read-Host "Do you want to continue? (y/N)"
+                    if ($confirmation -ne "y" -and $confirmation -ne "Y") {
+                        Write-Host "Uninstallation skipped." -ForegroundColor Cyan
+                        continue
+                    }
+                }
+                
+                foreach ($package in $packagesToUninstall) {
+                    Write-Host "Uninstalling $packageType package: $($package.name)" -ForegroundColor Yellow
+                    $uninstallResult = Uninstall-ArbitraryPackage $package.name
+                    if ($uninstallResult) {
+                        $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+                    }
                 }
             }
         } elseif ($packageType -eq 'copy') {
@@ -397,12 +454,26 @@ try {
             }
             
             # Handle uninstallations (simply delete the file from Bin directory)
-            foreach ($package in $packagesToUninstall) {
-                $binPath = Join-Path $env:USERPROFILE "Bin"
-                $filePath = Join-Path $binPath $package.fileName
-                if (Test-Path $filePath) {
-                    Remove-Item -Path $filePath -Force
-                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+            if ($packagesToUninstall.Count -gt 0) {
+                if (-not $Force) {
+                    Write-Host "The following $packageType packages will be uninstalled:" -ForegroundColor Yellow
+                    foreach ($package in $packagesToUninstall) {
+                        Write-Host "  - $($package.name)" -ForegroundColor Red
+                    }
+                    $confirmation = Read-Host "Do you want to continue? (y/N)"
+                    if ($confirmation -ne "y" -and $confirmation -ne "Y") {
+                        Write-Host "Uninstallation skipped." -ForegroundColor Cyan
+                        continue
+                    }
+                }
+                
+                foreach ($package in $packagesToUninstall) {
+                    $binPath = Join-Path $env:USERPROFILE "Bin"
+                    $filePath = Join-Path $binPath $package.fileName
+                    if (Test-Path $filePath) {
+                        Remove-Item -Path $filePath -Force
+                        $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package.name })
+                    }
                 }
             }
         } else {
@@ -427,14 +498,28 @@ try {
                 }
             }
             
-            foreach ($package in $packagesToUninstall) {
-                Write-Host "Uninstalling $packageType package: $package" -ForegroundColor Yellow
-                $uninstallResult = switch ($packageType) {
-                    'scoop' { Uninstall-ScoopPackage $package }
-                    'nodejs' { Uninstall-NodejsPackage $package }
+            if ($packagesToUninstall.Count -gt 0) {
+                if (-not $Force) {
+                    Write-Host "The following $packageType packages will be uninstalled:" -ForegroundColor Yellow
+                    foreach ($package in $packagesToUninstall) {
+                        Write-Host "  - $package" -ForegroundColor Red
+                    }
+                    $confirmation = Read-Host "Do you want to continue? (y/N)"
+                    if ($confirmation -ne "y" -and $confirmation -ne "Y") {
+                        Write-Host "Uninstallation skipped." -ForegroundColor Cyan
+                        continue
+                    }
                 }
-                if ($uninstallResult) {
-                    $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package })
+                
+                foreach ($package in $packagesToUninstall) {
+                    Write-Host "Uninstalling $packageType package: $package" -ForegroundColor Yellow
+                    $uninstallResult = switch ($packageType) {
+                        'scoop' { Uninstall-ScoopPackage $package }
+                        'nodejs' { Uninstall-NodejsPackage $package }
+                    }
+                    if ($uninstallResult) {
+                        $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $package })
+                    }
                 }
             }
         }
