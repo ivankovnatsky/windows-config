@@ -22,7 +22,6 @@
     "go",
     "golangci-lint",
     "delve",
-    "gopls",
     "ghq",
     "git",
     "gnupg",
