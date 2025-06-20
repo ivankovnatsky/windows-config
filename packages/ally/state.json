@@ -15,7 +15,7 @@
                           "installedOn":  "2025-05-30 07:15:07"
                       }
                   ],
-    "lastUpdated":  "2025-05-30 07:15:07",
+    "lastUpdated":  "2025-06-20 19:03:10",
     "copy":  [
 
              ],
@@ -183,6 +183,10 @@
                   {
                       "name":  "delve",
                       "installedOn":  "2025-05-30 07:14:41"
+                  },
+                  {
+                      "name":  "windsurf",
+                      "installedOn":  "2025-06-20 19:03:05"
                   }
               ]
 }
