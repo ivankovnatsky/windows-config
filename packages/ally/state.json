@@ -15,7 +15,7 @@
                           "installedOn":  "2025-05-30 07:15:07"
                       }
                   ],
-    "lastUpdated":  "2025-06-20 19:33:55",
+    "lastUpdated":  "2025-06-29 20:44:20",
     "copy":  [
 
              ],
@@ -187,6 +187,10 @@
                   {
                       "name":  "windsurf",
                       "installedOn":  "2025-06-20 19:03:05"
+                  },
+                  {
+                      "name":  "ffmpeg",
+                      "installedOn":  "2025-06-29 20:44:20"
                   }
               ]
 }
