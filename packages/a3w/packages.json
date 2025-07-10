@@ -1,0 +1,41 @@
+{
+  "scoop": [
+    "7zip",
+    "gnupg",
+    "ripgrep",
+    "bat",
+    "starship",
+    "git",
+    "neovim",
+    "firefox",
+    "chromium",
+    "crystaldiskinfo",
+    "crystaldiskmark",
+    "hwinfo",
+    "syncthing",
+    "innounp",
+    "vim",
+    "windsurf",
+    "steam",
+    "wget",
+    "cacert",
+    "Hack-NF"
+  ],
+  "arbitrary": [
+    {
+      "name": "NVIDIA Graphics Driver",
+      "url": "https://us.download.nvidia.com/Windows/576.88/576.88-desktop-win10-win11-64bit-international-dch-whql.exe",
+      "fileName": "nvidia-driver-576.88.exe",
+      "interactive": true
+    },
+    {
+      "name": "Intel LAN Driver",
+      "url": "https://dlcdnta.asus.com/pub/ASUS/mb/SocketAM5/M6870/Intel_LAN_Driver_V2.1.4.3_Windows_11.zip?model=ROG%20STRIX%20B850-I%20GAMING%20WIFI&Signature=oUS-lw16ldDLoTp7IykuKFQ2US5ZM-HlPQOWw1d4Q1lET1ONOTNcubH0JxSPzseNEF0CbQ4Ux3CfW8fqHtA4wRCAvuJ8Vc5hvfYK-59SXN0R8sJZ6I8h3dPl7Iwq7i7wsKOFynTrwoYcKIKkS9jaJCEER7cj0sYId25ufZw9xbFK7i4SuaO60EqOCWEE~QAF4XfMBMrIQ-0QaLZ-QBLRbwOylu2qqHR838fFqhKLjuJxp0u5k9fafTjl~gi-cJTdk48WcvUv~OCxhDJgtf7vwEzC1Q6PqlYa5L7y4GR1TZk~v0tO~pGosh9xeinc3M1Cvjf3Wk4YAq8WM64WC784TQ__&Expires=1752146982&Key-Pair-Id=K2ITB7O97XKKCX",
+      "fileName": "Intel_LAN_Driver_V2.1.4.3_Windows_11.zip",
+      "interactive": true
+    }
+  ],
+  "copy": [],
+  "nodejs": [
+  ]
+}

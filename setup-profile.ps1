@@ -20,13 +20,13 @@ if (!(Test-Path -Path $profilePath)) {
     Write-Host "Created profile file"
 }
 
-# Create the profile content with just the git alias
+# Create the profile content with aliases and functions
 $content = @"
 # Git alias
 Set-Alias -Name g -Value git
 
-# Bat alias for cat
-Set-Alias -Name cat -Value bat
+# Bat function to replace cat (since cat alias is protected)
+function cat { bat @args }
 
 # Initialize Starship
 Invoke-Expression (&starship init powershell)

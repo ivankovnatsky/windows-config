@@ -1,3 +1,8 @@
+# Build paths dynamically
+$userProfile = $env:USERPROFILE.Replace('\', '/')
+$gpgPath = "$userProfile/scoop/apps/gnupg/current/bin/gpg.exe"
+$ghPath = "$userProfile/scoop/shims/gh.exe"
+
 $gitConfig = @"
 [alias]
 	a = "add"
@@ -15,13 +20,15 @@ $gitConfig = @"
 [core]
 	editor = "nvim"
 	filemode = true
-	autocrlf = input
+	autocrlf = true
+	eol = crlf
+	safecrlf = false
 
 [credential "https://gist.github.com"]
-	helper = "C:/Users/crust/scoop/shims/gh.exe auth git-credential"
+	helper = "$ghPath auth git-credential"
 
 [credential "https://github.com"]
-	helper = "C:/Users/crust/scoop/shims/gh.exe auth git-credential"
+	helper = "$ghPath auth git-credential"
 
 [diff]
 	noprefix = true
@@ -30,7 +37,7 @@ $gitConfig = @"
 	root = "~/Sources"
 
 [gpg]
-	program = "C:/Users/crust/scoop/apps/gnupg/current/bin/gpg.exe"
+	program = "$gpgPath"
 
 [http]
 	postBuffer = 157286400

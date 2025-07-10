@@ -96,7 +96,7 @@ if (!(Test-Path "$env:USERPROFILE\scoop\apps\git")) {
 }
 
 # Define required buckets
-$requiredBuckets = @('extras', 'nerd-fonts')
+$requiredBuckets = @('extras', 'nerd-fonts', 'games')
 
 # Check and add required buckets
 foreach ($bucket in $requiredBuckets) {
@@ -209,7 +209,12 @@ function Initialize-StateWithExisting {
 
 # Function to update state file
 function Update-StateFile($state) {
-    $state.lastUpdated = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    # Safely add or update the lastUpdated property
+    if ($state.PSObject.Properties.Name -contains 'lastUpdated') {
+        $state.lastUpdated = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    } else {
+        $state | Add-Member -NotePropertyName 'lastUpdated' -NotePropertyValue (Get-Date -Format "yyyy-MM-dd HH:mm:ss") -Force
+    }
     $state | ConvertTo-Json -Depth 4 | Set-Content $stateFile
 }
 
@@ -248,7 +253,25 @@ function Install-ArbitraryPackage($package) {
         
         if (Test-Path $outputFile) {
             Write-Host "Starting installation from: $outputFile"
-            Start-Process -FilePath $outputFile -Wait -ArgumentList "/S"
+            
+            # Check if file is a ZIP archive
+            if ($package.fileName -like "*.zip") {
+                Write-Host "Opening ZIP file in Explorer for manual extraction and installation" -ForegroundColor Yellow
+                Start-Process -FilePath "explorer.exe" -ArgumentList $outputFile
+                Write-Host "Please extract and run the installer manually. Press any key when installation is complete..." -ForegroundColor Cyan
+                $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+                Remove-Item -Path $outputFile -Force
+                return $true
+            }
+            # Check if package should run interactively
+            elseif ($package.interactive -eq $true) {
+                Write-Host "Running interactive installation - please follow the installer prompts" -ForegroundColor Yellow
+                Start-Process -FilePath $outputFile -Wait
+            } else {
+                # Default silent installation
+                Start-Process -FilePath $outputFile -Wait -ArgumentList "/S"
+            }
+            
             Remove-Item -Path $outputFile -Force
             return $true
         } else {

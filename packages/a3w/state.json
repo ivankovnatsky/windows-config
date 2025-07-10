@@ -1,0 +1,101 @@
+{
+    "scoop":  [
+                  {
+                      "name":  "7zip",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "crystaldiskinfo",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "crystaldiskmark",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "git",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "hwinfo",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "innounp",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "neovim",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "syncthing",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "vim",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "windsurf",
+                      "installedOn":  "2025-07-10 12:36:42"
+                  },
+                  {
+                      "name":  "firefox",
+                      "installedOn":  "2025-07-10 12:47:14"
+                  },
+                  {
+                      "name":  "chromium",
+                      "installedOn":  "2025-07-10 12:49:35"
+                  },
+                  {
+                      "name":  "steam",
+                      "installedOn":  "2025-07-10 13:16:14"
+                  },
+                  {
+                      "name":  "wget",
+                      "installedOn":  "2025-07-10 13:17:08"
+                  },
+                  {
+                      "name":  "cacert",
+                      "installedOn":  "2025-07-10 13:27:39"
+                  },
+                  {
+                      "name":  "starship",
+                      "installedOn":  "2025-07-10 18:30:08"
+                  },
+                  {
+                      "name":  "ripgrep",
+                      "installedOn":  "2025-07-10 18:31:55"
+                  },
+                  {
+                      "name":  "bat",
+                      "installedOn":  "2025-07-10 18:31:57"
+                  },
+                  {
+                      "name":  "gnupg",
+                      "installedOn":  "2025-07-10 18:32:19"
+                  },
+                  {
+                      "name":  "Hack-NF",
+                      "installedOn":  "2025-07-10 18:42:27"
+                  }
+              ],
+    "arbitrary":  [
+                      {
+                          "name":  "NVIDIA Graphics Driver",
+                          "installedOn":  "2025-07-10 13:21:07"
+                      },
+                      {
+                          "name":  "Intel LAN Driver",
+                          "installedOn":  "2025-07-10 13:29:27"
+                      }
+                  ],
+    "copy":  [
+
+             ],
+    "nodejs":  [
+
+               ],
+    "lastUpdated":  "2025-07-10 18:42:34"
+}
