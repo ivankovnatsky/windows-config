@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "gh",
     "gnupg",
     "ripgrep",
     "bat",
