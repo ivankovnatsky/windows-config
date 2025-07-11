@@ -113,11 +113,14 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-11 14:09:03",
+    "lastUpdated":  "2025-07-11 15:59:52",
     "winget":  [
 
                ],
     "msstore":  [
-
+                    {
+                        "name":  "9N3NK5WW05HT",
+                        "installedOn":  "2025-07-11 15:59:52"
+                    }
                 ]
 }
