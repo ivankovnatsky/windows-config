@@ -6,7 +6,8 @@ $desktopPath = [Environment]::GetFolderPath("Desktop")
 
 # Define what files this script should create
 $desiredFiles = @(
-    (Join-Path $desktopPath "reboot.bat")
+    (Join-Path $desktopPath "reboot.bat"),
+    (Join-Path $desktopPath "poweroff.bat")
 )
 
 # Function to read state
@@ -134,6 +135,15 @@ shutdown /r /t 0 /f
 '@
                 $content | Set-Content -Path $filePath -Encoding ASCII
                 Write-Host "Created reboot.bat - Double-click to reboot system" -ForegroundColor Green
+            }
+            "poweroff.bat" {
+                $content = @'
+@echo off
+echo Shutting down system now...
+shutdown /s /t 0 /f
+'@
+                $content | Set-Content -Path $filePath -Encoding ASCII
+                Write-Host "Created poweroff.bat - Double-click to shutdown system" -ForegroundColor Green
             }
             
 
