@@ -93,6 +93,10 @@
                       {
                           "name":  "Intel LAN Driver",
                           "installedOn":  "2025-07-10 13:29:27"
+                      },
+                      {
+                          "name":  "MTK Bluetooth Driver",
+                          "installedOn":  "2025-07-11 10:18:24"
                       }
                   ],
     "copy":  [
@@ -101,5 +105,5 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-10 18:54:46"
+    "lastUpdated":  "2025-07-11 10:18:24"
 }

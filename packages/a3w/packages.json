@@ -34,6 +34,12 @@
       "url": "https://dlcdnta.asus.com/pub/ASUS/mb/SocketAM5/M6870/Intel_LAN_Driver_V2.1.4.3_Windows_11.zip?model=ROG%20STRIX%20B850-I%20GAMING%20WIFI&Signature=oUS-lw16ldDLoTp7IykuKFQ2US5ZM-HlPQOWw1d4Q1lET1ONOTNcubH0JxSPzseNEF0CbQ4Ux3CfW8fqHtA4wRCAvuJ8Vc5hvfYK-59SXN0R8sJZ6I8h3dPl7Iwq7i7wsKOFynTrwoYcKIKkS9jaJCEER7cj0sYId25ufZw9xbFK7i4SuaO60EqOCWEE~QAF4XfMBMrIQ-0QaLZ-QBLRbwOylu2qqHR838fFqhKLjuJxp0u5k9fafTjl~gi-cJTdk48WcvUv~OCxhDJgtf7vwEzC1Q6PqlYa5L7y4GR1TZk~v0tO~pGosh9xeinc3M1Cvjf3Wk4YAq8WM64WC784TQ__&Expires=1752146982&Key-Pair-Id=K2ITB7O97XKKCX",
       "fileName": "Intel_LAN_Driver_V2.1.4.3_Windows_11.zip",
       "interactive": true
+    },
+    {
+      "name": "MTK Bluetooth Driver",
+      "url": "https://dlcdnta.asus.com/pub/ASUS/mb/SocketAM5/M6870/MTK_Bluetooth_V1.1038.0.442_Windows_11_64-bit.zip?model=ROG%20STRIX%20B850-I%20GAMING%20WIFI&Signature=PgD8lyNo3wB6dB4DQKUeon6~W8lFg6YRGEwwjjP43gRhrFpOrfiR~hUeIF8SQ3IZARLlkL-Ti9ZJw9WvCh9dUzdR3SpZVeqUa1tsPDihW1Oic3G4HOOz5UrIGmwcx9qTYS5tFvoo29Yw9Cha6VvR5j81Teb~yRZpa~HUBOum-ZZLJ7~Vy88ycJ-DL1wVZkq7ckBgicbxoge3bjzcSZVYYzkpEvHqMuwZMvPH7xsnYDtPoOEPJvYulQP6vVYTzMiPfCoXD-Z3AZjnU2MGVCS1q8RwXa2mTXBQWoezX6LuiGTvKBOhmbzmuXvv2I~PBISCaFpiftYZejjfODth8vQ6Fg__&Expires=1752229380&Key-Pair-Id=K2ITB7O97XKKCX",
+      "fileName": "MTK_Bluetooth_V1.1038.0.442_Windows_11_64-bit.zip",
+      "interactive": true
     }
   ],
   "copy": [],
