@@ -146,6 +146,7 @@ function Get-PackagesFromJson($filePath) {
             scoop = $content.scoop
             arbitrary = $content.arbitrary
             copy = $content.copy
+            winget = $content.winget
             nodejs = $content.nodejs
         }
     } catch {
@@ -170,12 +171,13 @@ function Get-StateFromJson($filePath) {
             scoop = @()
             arbitrary = @()
             copy = @()
+            winget = @()
             nodejs = @()
         }
     }
 
     # Ensure all required properties exist and are arrays
-    $requiredProperties = @('scoop', 'arbitrary', 'copy', 'nodejs')
+    $requiredProperties = @('scoop', 'arbitrary', 'copy', 'winget', 'nodejs')
     foreach ($prop in $requiredProperties) {
         if (-not ($state.PSObject.Properties.Name -contains $prop) -or $null -eq $state.$prop) {
             $state | Add-Member -NotePropertyName $prop -NotePropertyValue @() -Force
@@ -201,6 +203,28 @@ function Initialize-StateWithExisting {
     foreach ($package in $existingScoopPackages) {
         if ($package -and -not ($state.scoop | Where-Object { $_.name -eq $package.name })) {
             $state.scoop += $package
+        }
+    }
+
+    # Get existing winget packages (if winget is available)
+    $existingWingetPackages = @()
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        try {
+            $wingetList = winget list --accept-source-agreements 2>$null
+            if ($LASTEXITCODE -eq 0) {
+                # Parse winget output to find installed packages
+                # This is a simplified approach - winget list output parsing can be complex
+                $existingWingetPackages = @()
+            }
+        } catch {
+            Write-Warning "Could not detect existing winget packages: $($_.Exception.Message)"
+        }
+    }
+
+    # Update state with existing winget packages
+    foreach ($package in $existingWingetPackages) {
+        if ($package -and -not ($state.winget | Where-Object { $_.name -eq $package.name })) {
+            $state.winget += $package
         }
     }
 
@@ -347,6 +371,75 @@ function Uninstall-ArbitraryPackage($packageName) {
     }
 }
 
+# Function to initialize winget sources
+function Initialize-WingetSources {
+    Write-Host "Initializing winget sources..." -ForegroundColor Cyan
+    try {
+        # Accept source agreements by running a simple list command
+        $null = winget source list --accept-source-agreements 2>$null
+        return $true
+    } catch {
+        Write-Warning "Could not initialize winget sources: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+# Function to install winget package
+function Install-WingetPackage($packageId) {
+    Write-Host "Installing winget package: $packageId" -ForegroundColor Cyan
+    try {
+        # Check if winget is available
+        if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+            Write-Error "winget is not available. Please install App Installer from Microsoft Store."
+            return $false
+        }
+        
+        # Initialize sources if needed
+        Initialize-WingetSources | Out-Null
+        
+        # Check if already installed
+        $listResult = winget list --id $packageId --exact --accept-source-agreements 2>$null
+        if ($LASTEXITCODE -eq 0 -and $listResult -match $packageId) {
+            Write-Host "Package $packageId is already installed" -ForegroundColor Green
+            return $true
+        }
+        
+        # Install the package
+        Write-Host "Installing $packageId from Microsoft Store..." -ForegroundColor Yellow
+        winget install --id $packageId --accept-package-agreements --accept-source-agreements --silent
+        
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Successfully installed $packageId" -ForegroundColor Green
+            return $true
+        } else {
+            Write-Error "Failed to install $packageId (exit code: $LASTEXITCODE)"
+            return $false
+        }
+    } catch {
+        Write-Error "Failed to install winget package $packageId`: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+# Function to uninstall winget package
+function Uninstall-WingetPackage($packageId) {
+    Write-Host "Uninstalling winget package: $packageId" -ForegroundColor Cyan
+    try {
+        # Check if winget is available
+        if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+            Write-Error "winget is not available. Cannot uninstall package."
+            return $false
+        }
+        
+        # Uninstall the package
+        winget uninstall --id $packageId --silent
+        return $LASTEXITCODE -eq 0
+    } catch {
+        Write-Error "Failed to uninstall winget package $packageId`: $($_.Exception.Message)"
+        return $false
+    }
+}
+
 # Function to install Node.js global package
 function Install-NodejsPackage($package) {
     Write-Host "Installing Node.js global package: $package" -ForegroundColor Cyan
@@ -401,7 +494,7 @@ try {
     $state = Initialize-StateWithExisting $state
 
     # Process all package types
-    @('scoop', 'arbitrary', 'copy', 'nodejs') | ForEach-Object {
+    @('scoop', 'arbitrary', 'copy', 'winget', 'nodejs') | ForEach-Object {
         $packageType = $_
         Write-Host "Processing $packageType packages..." -ForegroundColor Cyan
         
@@ -511,6 +604,7 @@ try {
                 Write-Host "Installing $packageType package: $package" -ForegroundColor Yellow
                 $installResult = switch ($packageType) {
                     'scoop' { Install-ScoopPackage $package }
+                    'winget' { Install-WingetPackage $package }
                     'nodejs' { Install-NodejsPackage $package }
                 }
                 if ($installResult) {
@@ -538,6 +632,7 @@ try {
                     Write-Host "Uninstalling $packageType package: $package" -ForegroundColor Yellow
                     $uninstallResult = switch ($packageType) {
                         'scoop' { Uninstall-ScoopPackage $package }
+                        'winget' { Uninstall-WingetPackage $package }
                         'nodejs' { Uninstall-NodejsPackage $package }
                     }
                     if ($uninstallResult) {
