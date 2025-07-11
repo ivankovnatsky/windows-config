@@ -91,6 +91,10 @@
                   {
                       "name":  "mpv",
                       "installedOn":  "2025-07-11 13:32:17"
+                  },
+                  {
+                      "name":  "dust",
+                      "installedOn":  "2025-07-11 21:08:29"
                   }
               ],
     "arbitrary":  [
@@ -113,7 +117,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-11 15:59:52",
+    "lastUpdated":  "2025-07-11 21:08:29",
     "winget":  [
 
                ],
