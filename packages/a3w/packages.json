@@ -1,6 +1,8 @@
 {
   "scoop": [
     "7zip",
+    "mpv",
+    "yt-dlp",
     "gh",
     "gnupg",
     "ripgrep",
@@ -44,6 +46,9 @@
   ],
   "copy": [],
   "winget": [],
+  "msstore": [
+    "9N3NK5WW05HT"
+  ],
   "nodejs": [
   ]
 }

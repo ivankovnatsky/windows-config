@@ -147,6 +147,7 @@ function Get-PackagesFromJson($filePath) {
             arbitrary = $content.arbitrary
             copy = $content.copy
             winget = $content.winget
+            msstore = $content.msstore
             nodejs = $content.nodejs
         }
     } catch {
@@ -172,12 +173,13 @@ function Get-StateFromJson($filePath) {
             arbitrary = @()
             copy = @()
             winget = @()
+            msstore = @()
             nodejs = @()
         }
     }
 
     # Ensure all required properties exist and are arrays
-    $requiredProperties = @('scoop', 'arbitrary', 'copy', 'winget', 'nodejs')
+    $requiredProperties = @('scoop', 'arbitrary', 'copy', 'winget', 'msstore', 'nodejs')
     foreach ($prop in $requiredProperties) {
         if (-not ($state.PSObject.Properties.Name -contains $prop) -or $null -eq $state.$prop) {
             $state | Add-Member -NotePropertyName $prop -NotePropertyValue @() -Force
@@ -454,6 +456,45 @@ function Uninstall-NodejsPackage($package) {
     return $LASTEXITCODE -eq 0
 }
 
+# Function to install Microsoft Store package
+function Install-MsStorePackage($packageId) {
+    Write-Host "Installing Microsoft Store package: $packageId" -ForegroundColor Cyan
+    try {
+        # Open Microsoft Store page for the app
+        Write-Host "Opening Microsoft Store for app ID: $packageId" -ForegroundColor Yellow
+        Start-Process "ms-windows-store://pdp/?ProductId=$packageId"
+        
+        Write-Host "Microsoft Store opened. Please click 'Install' to proceed." -ForegroundColor Cyan
+        Write-Host "Press any key after installation is complete..." -ForegroundColor Yellow
+        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        
+        return $true
+    } catch {
+        Write-Error "Failed to open Microsoft Store for $packageId`: $($_.Exception.Message)"
+        return $false
+    }
+}
+
+# Function to uninstall Microsoft Store package
+function Uninstall-MsStorePackage($packageId) {
+    Write-Host "Uninstalling Microsoft Store package: $packageId" -ForegroundColor Cyan
+    try {
+        # Try to find the app by ProductId and uninstall via PowerShell
+        $app = Get-AppxPackage | Where-Object { $_.PackageFullName -like "*$packageId*" -or $_.Name -like "*$packageId*" }
+        if ($app) {
+            Write-Host "Found app: $($app.Name)" -ForegroundColor Yellow
+            Remove-AppxPackage -Package $app.PackageFullName
+            return $true
+        } else {
+            Write-Host "Microsoft Store app with ID $packageId not found or not installed" -ForegroundColor Yellow
+            return $false
+        }
+    } catch {
+        Write-Error "Failed to uninstall Microsoft Store package $packageId`: $($_.Exception.Message)"
+        return $false
+    }
+}
+
 # Function to install copy package
 function Install-CopyPackage($package) {
     Write-Host "Copying package: $($package.name)" -ForegroundColor Cyan
@@ -494,7 +535,7 @@ try {
     $state = Initialize-StateWithExisting $state
 
     # Process all package types
-    @('scoop', 'arbitrary', 'copy', 'winget', 'nodejs') | ForEach-Object {
+    @('scoop', 'arbitrary', 'copy', 'winget', 'msstore', 'nodejs') | ForEach-Object {
         $packageType = $_
         Write-Host "Processing $packageType packages..." -ForegroundColor Cyan
         
@@ -605,6 +646,7 @@ try {
                 $installResult = switch ($packageType) {
                     'scoop' { Install-ScoopPackage $package }
                     'winget' { Install-WingetPackage $package }
+                    'msstore' { Install-MsStorePackage $package }
                     'nodejs' { Install-NodejsPackage $package }
                 }
                 if ($installResult) {
@@ -633,6 +675,7 @@ try {
                     $uninstallResult = switch ($packageType) {
                         'scoop' { Uninstall-ScoopPackage $package }
                         'winget' { Uninstall-WingetPackage $package }
+                        'msstore' { Uninstall-MsStorePackage $package }
                         'nodejs' { Uninstall-NodejsPackage $package }
                     }
                     if ($uninstallResult) {
