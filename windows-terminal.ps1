@@ -37,6 +37,7 @@ $terminalConfig = @"
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "startOnUserLogin": true,
     "newTabMenu": 
     [
         {
