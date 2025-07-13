@@ -115,6 +115,14 @@
                   {
                       "name":  "delta",
                       "installedOn":  "2025-07-13 10:52:35"
+                  },
+                  {
+                      "name":  "nodejs",
+                      "installedOn":  "2025-07-13 11:05:18"
+                  },
+                  {
+                      "name":  "mingw",
+                      "installedOn":  "2025-07-13 11:05:42"
                   }
               ],
     "arbitrary":  [
@@ -137,7 +145,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 10:52:35",
+    "lastUpdated":  "2025-07-13 11:05:42",
     "winget":  [
 
                ],

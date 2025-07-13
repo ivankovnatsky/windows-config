@@ -17,6 +17,8 @@
     "starship",
     "git",
     "neovim",
+    "nodejs",
+    "mingw",
     "firefox",
     "chromium",
     "crystaldiskinfo",
