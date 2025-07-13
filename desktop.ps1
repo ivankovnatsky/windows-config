@@ -8,7 +8,7 @@ $desktopPath = [Environment]::GetFolderPath("Desktop")
 $desiredFiles = @(
     (Join-Path $desktopPath "reboot.bat"),
     (Join-Path $desktopPath "poweroff.bat"),
-    (Join-Path $desktopPath "sleep.bat")
+    (Join-Path $desktopPath "hibernate.bat")
 )
 
 # Function to read state
@@ -146,14 +146,14 @@ shutdown /s /t 0 /f
                 $content | Set-Content -Path $filePath -Encoding ASCII
                 Write-Host "Created poweroff.bat - Double-click to shutdown system" -ForegroundColor Green
             }
-            "sleep.bat" {
+            "hibernate.bat" {
                 $content = @'
 @echo off
-echo Putting system to sleep...
-rundll32.exe powrprof.dll,SetSuspendState 0,1,0
+echo Hibernating system...
+shutdown /h
 '@
                 $content | Set-Content -Path $filePath -Encoding ASCII
-                Write-Host "Created sleep.bat - Double-click to put system to sleep" -ForegroundColor Green
+                Write-Host "Created hibernate.bat - Double-click to hibernate system" -ForegroundColor Green
             }
             
 
