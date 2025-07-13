@@ -32,7 +32,8 @@
     "steam",
     "wget",
     "cacert",
-    "Hack-NF"
+    "Hack-NF",
+    "furmark"
   ],
   "arbitrary": [
     {
@@ -52,13 +53,23 @@
       "url": "https://dlcdnta.asus.com/pub/ASUS/mb/SocketAM5/M6870/MTK_Bluetooth_V1.1038.0.442_Windows_11_64-bit.zip?model=ROG%20STRIX%20B850-I%20GAMING%20WIFI&Signature=PgD8lyNo3wB6dB4DQKUeon6~W8lFg6YRGEwwjjP43gRhrFpOrfiR~hUeIF8SQ3IZARLlkL-Ti9ZJw9WvCh9dUzdR3SpZVeqUa1tsPDihW1Oic3G4HOOz5UrIGmwcx9qTYS5tFvoo29Yw9Cha6VvR5j81Teb~yRZpa~HUBOum-ZZLJ7~Vy88ycJ-DL1wVZkq7ckBgicbxoge3bjzcSZVYYzkpEvHqMuwZMvPH7xsnYDtPoOEPJvYulQP6vVYTzMiPfCoXD-Z3AZjnU2MGVCS1q8RwXa2mTXBQWoezX6LuiGTvKBOhmbzmuXvv2I~PBISCaFpiftYZejjfODth8vQ6Fg__&Expires=1752229380&Key-Pair-Id=K2ITB7O97XKKCX",
       "fileName": "MTK_Bluetooth_V1.1038.0.442_Windows_11_64-bit.zip",
       "interactive": true
+    },
+    {
+      "name": "ROG RTX 5080 BIOS - Quiet Mode",
+      "url": "https://dlcdnta.asus.com/pub/ASUS/Graphic%20Card/NVIDIA/BIOSUPDATE_TOOL/RTX5080/ASTRAL-RTX5080_V1.zip?model=ROG-ASTRAL-RTX5080-O16G-GAMING&Signature=3H1kGs91R7q4yjMuGDHLvmMH8I-fUGBUMlHc2h3WhmFVH5s14bI0r~zRTXIfqdIzhOnTnAdT6ygKHAh~JCCXwkjS3iZyhE3W0Udhe1eI4SXX2crV8oNOzewXEuXjaTWVMuDxLX~pqNVVZkImiVssoLKI~OZa706NB0lMGJXhuRSiyWT9hb2fjW940q9zjp-nUhKQKGThaEdh8D3tKDQu5QAUgYFxM6gq0rOxQsgG8YevXDpLJT9DDFJSj40N-Zuns50d6UkhpsfKKBvzhYnffmXbdpIzL~j3Pp82sKYLENjwNp-kVpSbsl2O3HMqjHdco561BuphN3F-~SO8OHnJtw__&Expires=1752397858&Key-Pair-Id=K2ITB7O97XKKCX",
+      "fileName": "ASTRAL-RTX5080_V1.zip",
+      "interactive": true
+    },
+    {
+      "name": "ROG RTX 5080 BIOS - TGP 450W",
+      "url": "https://dlcdnta.asus.com/pub/ASUS/Graphic%20Card/NVIDIA/ROG-ASTRAL-RTX5080-O16G-GAMING/ASTRAL-RTX5080_450W.exe?model=ROG-ASTRAL-RTX5080-O16G-GAMING&Signature=SJf4tEas29Sr-A3QgG-4O2sCDYxvrMgYLoWx8j5hCtI2wecujprxbCegZPGwR1v4CLZjpVQtvdFFha32QnG7F6rB1eBSNpESZBPjk6XpmHuCDy7honEKSwj~fCDW~ujRiwDRZwksRw5apNjKfrzm3ERDpO~DBDR8dlyt1MtxR1bZ5OTjFvXNcre4DGVXkitfFnTYaQKYnLhPOJPwFZ5XZx0lZRwFMwx3l6pNVgtTOq2gRBteGG~CLg6S4he6D-Vc6w8tYLvZqUusbvNhAAfQRbpEYE0A4XvgQmkglCIm5LhniiUTQNFU1C5eaELMUPP8abyY0XTe1TfqwIFBHseYcg__&Expires=1752397849&Key-Pair-Id=K2ITB7O97XKKCX",
+      "fileName": "ASTRAL-RTX5080_450W.exe",
+      "interactive": true
     }
   ],
   "copy": [],
   "winget": [],
-  "msstore": [
-    "9N3NK5WW05HT"
-  ],
+  "msstore": [],
   "nodejs": [
   ]
 }

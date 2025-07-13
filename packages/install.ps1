@@ -484,14 +484,22 @@ function Uninstall-MsStorePackage($packageId) {
         if ($app) {
             Write-Host "Found app: $($app.Name)" -ForegroundColor Yellow
             Remove-AppxPackage -Package $app.PackageFullName
-            return $true
+            Write-Host "App uninstalled successfully." -ForegroundColor Green
         } else {
             Write-Host "Microsoft Store app with ID $packageId not found or not installed" -ForegroundColor Yellow
-            return $false
         }
+        
+        # Wait for user confirmation like install does
+        Write-Host "Press any key to confirm removal from package state..." -ForegroundColor Yellow
+        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        
+        return $true  # Always return true to clean state after user confirmation
     } catch {
         Write-Error "Failed to uninstall Microsoft Store package $packageId`: $($_.Exception.Message)"
-        return $false
+        # Still wait for user confirmation even on error
+        Write-Host "Press any key to confirm removal from package state..." -ForegroundColor Yellow
+        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        return $true  # Return true to clean state
     }
 }
 

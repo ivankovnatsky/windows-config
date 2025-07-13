@@ -123,6 +123,14 @@
                   {
                       "name":  "mingw",
                       "installedOn":  "2025-07-13 11:05:42"
+                  },
+                  {
+                      "name":  "fd",
+                      "installedOn":  "2025-07-13 11:41:39"
+                  },
+                  {
+                      "name":  "furmark",
+                      "installedOn":  "2025-07-13 12:19:48"
                   }
               ],
     "arbitrary":  [
@@ -137,6 +145,14 @@
                       {
                           "name":  "MTK Bluetooth Driver",
                           "installedOn":  "2025-07-11 10:18:24"
+                      },
+                      {
+                          "name":  "ROG RTX 5080 BIOS - Quiet Mode",
+                          "installedOn":  "2025-07-13 12:07:25"
+                      },
+                      {
+                          "name":  "ROG RTX 5080 BIOS - TGP 450W",
+                          "installedOn":  "2025-07-13 12:15:46"
                       }
                   ],
     "copy":  [
@@ -145,14 +161,11 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 11:05:42",
+    "lastUpdated":  "2025-07-13 12:34:41",
     "winget":  [
 
                ],
     "msstore":  [
-                    {
-                        "name":  "9N3NK5WW05HT",
-                        "installedOn":  "2025-07-11 15:59:52"
-                    }
+
                 ]
 }
