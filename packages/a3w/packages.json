@@ -33,7 +33,8 @@
     "wget",
     "cacert",
     "Hack-NF",
-    "furmark"
+    "furmark",
+    "imagemagick"
   ],
   "arbitrary": [
     {

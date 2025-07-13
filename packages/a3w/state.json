@@ -131,6 +131,10 @@
                   {
                       "name":  "furmark",
                       "installedOn":  "2025-07-13 12:19:48"
+                  },
+                  {
+                      "name":  "imagemagick",
+                      "installedOn":  "2025-07-13 14:08:26"
                   }
               ],
     "arbitrary":  [
@@ -161,7 +165,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 12:34:41",
+    "lastUpdated":  "2025-07-13 14:08:26",
     "winget":  [
 
                ],
