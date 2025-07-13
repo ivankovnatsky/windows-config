@@ -19,6 +19,7 @@
     "neovim",
     "nodejs",
     "mingw",
+    "fd",
     "firefox",
     "chromium",
     "crystaldiskinfo",
