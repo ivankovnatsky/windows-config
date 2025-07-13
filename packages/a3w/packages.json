@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "discord",
     "dust",
     "mpv",
     "fzf",
@@ -71,6 +72,5 @@
   "copy": [],
   "winget": [],
   "msstore": [],
-  "nodejs": [
-  ]
+  "nodejs": []
 }
