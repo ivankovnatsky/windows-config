@@ -95,6 +95,10 @@
                   {
                       "name":  "dust",
                       "installedOn":  "2025-07-11 21:08:29"
+                  },
+                  {
+                      "name":  "fzf",
+                      "installedOn":  "2025-07-13 09:15:58"
                   }
               ],
     "arbitrary":  [
@@ -117,7 +121,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-11 21:08:29",
+    "lastUpdated":  "2025-07-13 09:15:58",
     "winget":  [
 
                ],
