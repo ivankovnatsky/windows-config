@@ -99,6 +99,22 @@
                   {
                       "name":  "fzf",
                       "installedOn":  "2025-07-13 09:15:58"
+                  },
+                  {
+                      "name":  "lsd",
+                      "installedOn":  "2025-07-13 10:51:34"
+                  },
+                  {
+                      "name":  "duf",
+                      "installedOn":  "2025-07-13 10:51:48"
+                  },
+                  {
+                      "name":  "exiftool",
+                      "installedOn":  "2025-07-13 10:52:34"
+                  },
+                  {
+                      "name":  "delta",
+                      "installedOn":  "2025-07-13 10:52:35"
                   }
               ],
     "arbitrary":  [
@@ -121,7 +137,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 09:15:58",
+    "lastUpdated":  "2025-07-13 10:52:35",
     "winget":  [
 
                ],
