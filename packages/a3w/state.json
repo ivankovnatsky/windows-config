@@ -139,6 +139,14 @@
                   {
                       "name":  "discord",
                       "installedOn":  "2025-07-13 15:54:58"
+                  },
+                  {
+                      "name":  "fancontrol",
+                      "installedOn":  "2025-07-13 22:05:21"
+                  },
+                  {
+                      "name":  "windowsdesktop-runtime-lts",
+                      "installedOn":  "2025-07-13 22:12:07"
                   }
               ],
     "arbitrary":  [
@@ -169,7 +177,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 15:54:58",
+    "lastUpdated":  "2025-07-13 22:16:54",
     "winget":  [
 
                ],
