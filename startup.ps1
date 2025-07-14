@@ -6,12 +6,6 @@ $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 # Define desired startup programs (executable paths)
 $desiredStartupPrograms = @(
-    "$env:USERPROFILE\scoop\apps\hwinfo\current\HWiNFO64.exe",
-    "$env:USERPROFILE\scoop\apps\windsurf\current\Windsurf.exe",
-    "$env:USERPROFILE\scoop\apps\steam\current\steam.exe",
-    "$env:WINDIR\System32\taskmgr.exe",
-    "$env:USERPROFILE\scoop\apps\firefox\current\firefox.exe",
-    "$env:USERPROFILE\scoop\apps\syncthing\current\syncthing.exe"
 )
 
 # Define user startup items to disable (only user-level items, not system)
