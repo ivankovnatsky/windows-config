@@ -147,6 +147,10 @@
                   {
                       "name":  "windowsdesktop-runtime-lts",
                       "installedOn":  "2025-07-13 22:12:07"
+                  },
+                  {
+                      "name":  "git-crypt",
+                      "installedOn":  "2025-07-14 19:32:16"
                   }
               ],
     "arbitrary":  [
@@ -177,7 +181,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-13 22:16:54",
+    "lastUpdated":  "2025-07-14 19:32:16",
     "winget":  [
 
                ],
