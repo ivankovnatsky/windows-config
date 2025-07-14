@@ -38,8 +38,7 @@ $editors = @(
 
 # Extensions to install
 $extensions = @(
-    "ms-vscode.powershell",
-    "vscodevim.vim"
+
 )
 
 # Process each editor
