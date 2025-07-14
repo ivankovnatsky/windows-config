@@ -19,7 +19,7 @@ $gitConfig = @"
 
 [core]
 	editor = "nvim"
-	filemode = true
+	filemode = false
 	autocrlf = true
 	eol = crlf
 	safecrlf = false
