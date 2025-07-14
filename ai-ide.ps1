@@ -56,28 +56,29 @@ foreach ($editor in $editors) {
         
         # Write configuration
         $editorConfig | Out-File -FilePath $editor.ConfigPath -Encoding utf8
-        Write-Host "  ✓ Configuration written to: $($editor.ConfigPath)" -ForegroundColor Cyan
+        Write-Host "Configuration written to: $($editor.ConfigPath)" -ForegroundColor Cyan
         
         # Check if CLI command is available
         $cliAvailable = Get-Command $editor.CliCommand -ErrorAction SilentlyContinue
         if ($cliAvailable) {
-            Write-Host "  Installing extensions for $($editor.Name)..." -ForegroundColor Yellow
+            Write-Host "Installing extensions for $($editor.Name)..." -ForegroundColor Yellow
             foreach ($extension in $extensions) {
-                Write-Host "    Installing: $extension" -ForegroundColor Gray
+                Write-Host "Installing: $extension" -ForegroundColor Gray
                 try {
                     Start-Process -FilePath $editor.CliCommand -ArgumentList "--install-extension $extension" -Wait -NoNewWindow
-                    Write-Host "    ✓ Installed: $extension" -ForegroundColor Green
+                    Write-Host "Installed: $extension" -ForegroundColor Green
                 } catch {
-                    Write-Host "    ✗ Failed to install: $extension - $($_.Exception.Message)" -ForegroundColor Red
+                    Write-Host "Failed to install: $extension - $($_.Exception.Message)" -ForegroundColor Red
                 }
             }
         } else {
-            Write-Host "  ⚠ CLI command '$($editor.CliCommand)' not found. Extensions not installed." -ForegroundColor Yellow
-            Write-Host "    You can install extensions manually or ensure the CLI is in your PATH." -ForegroundColor Gray
+            Write-Host "CLI command '$($editor.CliCommand)' not found. Extensions not installed." -ForegroundColor Yellow
+            Write-Host "You can install extensions manually or ensure the CLI is in your PATH." -ForegroundColor Gray
         }
     } else {
         Write-Host "$($editor.Name) directory not found: $configDir" -ForegroundColor Gray
     }
 }
 
-Write-Host "\nConfiguration complete!" -ForegroundColor Green 
+Write-Host ""
+Write-Host "Configuration complete!" -ForegroundColor Green
