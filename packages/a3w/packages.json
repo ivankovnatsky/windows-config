@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "ntop",
     "discord",
     "dust",
     "mpv",
@@ -37,6 +38,7 @@
     "Hack-NF",
     "furmark",
     "imagemagick",
+    "fastfetch",
     "windowsdesktop-runtime-lts",
     "fancontrol"
   ],

@@ -151,6 +151,14 @@
                   {
                       "name":  "git-crypt",
                       "installedOn":  "2025-07-14 19:32:16"
+                  },
+                  {
+                      "name":  "ntop",
+                      "installedOn":  "2025-07-15 08:53:01"
+                  },
+                  {
+                      "name":  "fastfetch",
+                      "installedOn":  "2025-07-15 09:05:43"
                   }
               ],
     "arbitrary":  [
@@ -181,7 +189,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-14 19:32:16",
+    "lastUpdated":  "2025-07-15 09:05:45",
     "winget":  [
 
                ],
