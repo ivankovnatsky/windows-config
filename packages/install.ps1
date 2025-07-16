@@ -193,11 +193,30 @@ function Get-StateFromJson($filePath) {
 function Initialize-StateWithExisting {
     param($state)
 
-    # Get existing scoop packages using export instead of list
-    $existingScoopPackages = (scoop export | ConvertFrom-Json).apps | ForEach-Object {
-        @{
-            name = $_.Name
-            installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    # Get existing scoop packages and handle failed installations
+    $exportedApps = (scoop export | ConvertFrom-Json).apps
+    $existingScoopPackages = @()
+    
+    foreach ($app in $exportedApps) {
+        $packageName = $app.Name
+        $packageDir = "$env:USERPROFILE\scoop\apps\$packageName\current"
+        
+        if (Test-Path $packageDir) {
+            # Package is fully installed
+            $existingScoopPackages += @{
+                name = $packageName
+                installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+            }
+        } else {
+            # Package appears in export but directory doesn't exist - failed installation
+            Write-Host "Detected failed installation for $packageName, cleaning up for retry..." -ForegroundColor Yellow
+            try {
+                scoop uninstall $packageName 2>$null
+                Write-Host "Cleaned up failed installation of $packageName" -ForegroundColor Green
+            } catch {
+                Write-Host "Could not clean up $packageName, will attempt reinstall anyway" -ForegroundColor Yellow
+            }
+            # Don't add to existing packages so it will be reinstalled
         }
     }
     
@@ -247,14 +266,39 @@ function Update-StateFile($state) {
 # Function to install scoop package
 function Install-ScoopPackage($package) {
     Write-Host "Installing Scoop package: $package" -ForegroundColor Cyan
-    # Check if package is already installed
-    $installed = (scoop export | ConvertFrom-Json).apps.Name -contains $package
-    if ($installed) {
-        Write-Host "Package $package is already installed" -ForegroundColor Green
-        return $true
+    
+    # Check if package is already fully installed by verifying both export and directory existence
+    try {
+        $exportedApps = (scoop export | ConvertFrom-Json).apps.Name
+        $packageInstalled = $exportedApps -contains $package
+        $packageDir = "$env:USERPROFILE\scoop\apps\$package\current"
+        $packageDirExists = Test-Path $packageDir
+        
+        if ($packageInstalled -and $packageDirExists) {
+            Write-Host "Package $package is already installed" -ForegroundColor Green
+            return $true
+        } elseif ($packageInstalled -and -not $packageDirExists) {
+            Write-Host "Package $package appears partially installed, cleaning up..." -ForegroundColor Yellow
+            scoop uninstall $package 2>$null
+        }
+    } catch {
+        Write-Host "Could not check existing installation status, proceeding with install..." -ForegroundColor Yellow
     }
+    
+    # Install the package
     scoop install $package
-    return $LASTEXITCODE -eq 0
+    $installSuccess = $LASTEXITCODE -eq 0
+    
+    # Double-check that installation actually completed successfully
+    if ($installSuccess) {
+        $packageDir = "$env:USERPROFILE\scoop\apps\$package\current"
+        if (-not (Test-Path $packageDir)) {
+            Write-Host "Installation reported success but package directory not found, marking as failed" -ForegroundColor Red
+            return $false
+        }
+    }
+    
+    return $installSuccess
 }
 
 # Function to uninstall scoop package
@@ -643,8 +687,60 @@ try {
             }
         } else {
             # Handle scoop and nodejs packages as before
-            $desiredPackages = $packages.$packageType
+            $rawPackages = $packages.$packageType
+            
+            # Normalize packages - handle both string and object formats
+            $desiredPackages = @()
+            $adminPackages = @()
+            foreach ($pkg in $rawPackages) {
+                if ($pkg -is [string]) {
+                    $desiredPackages += $pkg
+                } elseif ($pkg -is [hashtable] -or $pkg.PSObject.Properties) {
+                    if ($pkg.requiresAdmin) {
+                        $adminPackages += $pkg.name
+                    } else {
+                        $desiredPackages += $pkg.name
+                    }
+                }
+            }
+            
             $installedPackages = $state.$packageType | ForEach-Object { $_.name }
+            
+            # Validate packages in state - check if they're actually properly installed
+            if ($packageType -eq 'scoop') {
+                $validatedPackages = @()
+                $packagesToReinstall = @()
+                
+                foreach ($packageName in $installedPackages) {
+                    $packageDir = "$env:USERPROFILE\scoop\apps\$packageName\current"
+                    $exportedApps = (scoop export | ConvertFrom-Json).apps.Name
+                    
+                    if (($exportedApps -contains $packageName) -and (Test-Path $packageDir)) {
+                        # Package is properly installed
+                        $validatedPackages += $packageName
+                    } else {
+                        # Package in state but not properly installed - needs reinstall
+                        Write-Host "Package $packageName in state but not properly installed, marking for reinstall..." -ForegroundColor Yellow
+                        $packagesToReinstall += $packageName
+                        
+                        # Clean up broken installation if it exists in export
+                        if ($exportedApps -contains $packageName) {
+                            try {
+                                scoop uninstall $packageName 2>$null
+                                Write-Host "Cleaned up broken installation of $packageName" -ForegroundColor Green
+                            } catch {
+                                Write-Host "Could not clean up $packageName, will attempt reinstall anyway" -ForegroundColor Yellow
+                            }
+                        }
+                        
+                        # Remove from state so it gets reinstalled
+                        $state.$packageType = @($state.$packageType | Where-Object { $_.name -ne $packageName })
+                    }
+                }
+                
+                # Update installed packages list with only validated ones
+                $installedPackages = $validatedPackages
+            }
             
             $packagesToInstall = $desiredPackages | Where-Object { $_ -notin $installedPackages }
             $packagesToUninstall = $installedPackages | Where-Object { $_ -notin $desiredPackages }
@@ -661,6 +757,21 @@ try {
                     $state.$packageType += @{ 
                         name = $package
                         installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                    }
+                }
+            }
+            
+            # Handle admin-required packages with on-demand elevation
+            if ($packageType -eq 'scoop' -and $adminPackages.Count -gt 0) {
+                $adminPackagesToInstall = $adminPackages | Where-Object { $_ -notin $installedPackages }
+                
+                foreach ($package in $adminPackagesToInstall) {
+                    Write-Host "Installing $package (requires admin)..." -ForegroundColor Yellow
+                    try {
+                        Start-Process powershell -ArgumentList "-Command", "scoop install $package; Read-Host 'Press Enter to continue'" -Verb RunAs -Wait
+                        Write-Host "Admin installation completed for $package" -ForegroundColor Green
+                    } catch {
+                        Write-Host "Failed to install $package with admin privileges" -ForegroundColor Red
                     }
                 }
             }

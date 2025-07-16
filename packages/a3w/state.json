@@ -145,10 +145,6 @@
                       "installedOn":  "2025-07-13 22:05:21"
                   },
                   {
-                      "name":  "windowsdesktop-runtime-lts",
-                      "installedOn":  "2025-07-13 22:12:07"
-                  },
-                  {
                       "name":  "git-crypt",
                       "installedOn":  "2025-07-14 19:32:16"
                   },
@@ -159,6 +155,18 @@
                   {
                       "name":  "fastfetch",
                       "installedOn":  "2025-07-15 09:05:43"
+                  },
+                  {
+                      "name":  "aichat",
+                      "installedOn":  "2025-07-16 21:02:08"
+                  },
+                  {
+                      "name":  "aria2",
+                      "installedOn":  "2025-07-16 21:11:48"
+                  },
+                  {
+                      "name":  "ollama",
+                      "installedOn":  "2025-07-16 21:19:56"
                   }
               ],
     "arbitrary":  [
@@ -189,7 +197,7 @@
     "nodejs":  [
 
                ],
-    "lastUpdated":  "2025-07-15 09:05:45",
+    "lastUpdated":  "2025-07-16 21:31:43",
     "winget":  [
 
                ],

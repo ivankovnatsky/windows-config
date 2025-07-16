@@ -1,6 +1,8 @@
 {
   "scoop": [
     "7zip",
+    "ollama",
+    "aichat",
     "ntop",
     "discord",
     "dust",
@@ -39,8 +41,8 @@
     "furmark",
     "imagemagick",
     "fastfetch",
-    "windowsdesktop-runtime-lts",
-    "fancontrol"
+    "fancontrol",
+    "aria2"
   ],
   "arbitrary": [
     {
