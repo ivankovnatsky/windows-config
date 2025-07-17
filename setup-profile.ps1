@@ -25,8 +25,9 @@ $content = @"
 # Git alias
 Set-Alias -Name g -Value git
 
-# Bat function to replace cat (since cat alias is protected)
-function cat { bat @args }
+# Remove built-in cat alias and replace with bat
+Remove-Item alias:cat -Force -ErrorAction SilentlyContinue
+Set-Alias -Name cat -Value bat
 
 # Initialize Starship
 Invoke-Expression (&starship init powershell)
