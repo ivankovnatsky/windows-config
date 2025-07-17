@@ -17,6 +17,7 @@ $Models = @(
     "llama4:scout",    # 104B params, highest quality
     "llama3.3:70b",     # 70B params, faster alternative
     "gemma3:27b",
+    "gemma3:12b",
     "llama3.1:8b"
 )
 

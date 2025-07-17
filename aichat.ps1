@@ -39,6 +39,8 @@ clients:
         max_input_tokens: 131072
       - name: gemma3:27b
         max_input_tokens: 13107
+      - name: gemma3:12b
+        max_input_tokens: 13107
       - name: llama3.1:8b
         max_input_tokens: 13107
 "@
