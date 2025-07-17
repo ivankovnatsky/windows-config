@@ -34,9 +34,9 @@ clients:
     api_base: http://localhost:11434/v1
     models:
       - name: llama4:scout
-        max_input_tokens: 131072
+        max_input_tokens: 13107
       - name: llama3.3:70b
-        max_input_tokens: 131072
+        max_input_tokens: 13107
       - name: gemma3:27b
         max_input_tokens: 13107
       - name: gemma3:12b
