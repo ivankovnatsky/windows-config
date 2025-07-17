@@ -37,6 +37,10 @@ clients:
         max_input_tokens: 131072
       - name: llama3.3:70b
         max_input_tokens: 131072
+      - name: gemma3:27b
+        max_input_tokens: 13107
+      - name: llama3.1:8b
+        max_input_tokens: 13107
 "@
 
 # Write configuration to file with proper encoding

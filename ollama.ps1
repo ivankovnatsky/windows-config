@@ -15,7 +15,9 @@ param(
 
 $Models = @(
     "llama4:scout",    # 104B params, highest quality
-    "llama3.3:70b"     # 70B params, faster alternative
+    "llama3.3:70b",     # 70B params, faster alternative
+    "gemma3:27b",
+    "llama3.1:8b"
 )
 
 function Show-Help {
