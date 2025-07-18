@@ -29,6 +29,9 @@ Set-Alias -Name g -Value git
 Remove-Item alias:cat -Force -ErrorAction SilentlyContinue
 Set-Alias -Name cat -Value bat
 
+# Set environment variable for claude.cmd
+`$env:CLAUDE_CODE_GIT_BASH_PATH = (Get-Command bash.exe -ErrorAction SilentlyContinue).Source
+
 # Initialize Starship
 Invoke-Expression (&starship init powershell)
 "@

@@ -80,5 +80,8 @@
   "copy": [],
   "winget": [],
   "msstore": [],
-  "nodejs": []
+  "nodejs": [
+    "openai-cli",
+    "@anthropic-ai/claude-code"
+  ]
 }
