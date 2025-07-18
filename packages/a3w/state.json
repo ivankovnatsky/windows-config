@@ -200,15 +200,11 @@
              ],
     "nodejs":  [
                    {
-                       "name":  "@openai/codex",
-                       "installedOn":  "2025-07-18 21:06:34"
-                   },
-                   {
                        "name":  "@anthropic-ai/claude-code",
                        "installedOn":  "2025-07-18 21:06:36"
                    }
                ],
-    "lastUpdated":  "2025-07-18 21:06:36",
+    "lastUpdated":  "2025-07-18 21:33:09",
     "winget":  [
 
                ],
