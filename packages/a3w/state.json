@@ -171,6 +171,10 @@
                   {
                       "name":  "pwsh",
                       "installedOn":  "2025-07-18 21:06:19"
+                  },
+                  {
+                      "name":  "vscode",
+                      "installedOn":  "2025-07-18 21:59:37"
                   }
               ],
     "arbitrary":  [
@@ -204,7 +208,7 @@
                        "installedOn":  "2025-07-18 21:06:36"
                    }
                ],
-    "lastUpdated":  "2025-07-18 21:33:09",
+    "lastUpdated":  "2025-07-18 21:59:37",
     "winget":  [
 
                ],
