@@ -32,6 +32,22 @@ Set-Alias -Name cat -Value bat
 # Set environment variable for claude.cmd
 `$env:CLAUDE_CODE_GIT_BASH_PATH = (Get-Command bash.exe -ErrorAction SilentlyContinue).Source
 
+# Copy file content to clipboard function
+function Copy-FileContentToClipboard {
+    param (
+        [string]`$FilePath
+    )
+    if (Test-Path `$FilePath) {
+        Get-Content -Path `$FilePath | Set-Clipboard
+        Write-Host "Copied content of '`$FilePath' to clipboard"
+    } else {
+        Write-Host "File not found: `$FilePath" -ForegroundColor Red
+    }
+}
+
+# Create alias for easier usage
+Set-Alias -Name eat -Value Copy-FileContentToClipboard
+
 # Initialize Starship
 Invoke-Expression (&starship init powershell)
 "@
