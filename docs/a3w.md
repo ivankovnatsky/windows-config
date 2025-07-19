@@ -27,3 +27,7 @@
 - Changed from "Windows UEFI mode" to "Other OS"
 - Removed all secure boot keys during initial Linux installation
 - Required for dual-boot compatibility and Linux installation
+
+## User settings
+
+- Set firefox as default browser in firefox settings
