@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "jq",
     "ollama",
     "aichat",
     "ntop",
@@ -80,7 +81,9 @@
   ],
   "copy": [],
   "winget": [],
-  "msstore": [],
+  "msstore": [
+    "9N3NK5WW05HT"
+  ],
   "nodejs": [
     "@anthropic-ai/claude-code"
   ]
