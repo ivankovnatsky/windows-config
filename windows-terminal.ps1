@@ -49,7 +49,7 @@ $terminalConfig = @"
         "defaults": {
             "font": {
                 "face": "Hack Nerd Font",
-                "size": 12
+                "size": 11
             }
         },
         "list": 
