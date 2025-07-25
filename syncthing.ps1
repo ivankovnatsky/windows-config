@@ -62,43 +62,57 @@ elseif ($Uninstall) {
     if ($success) { exit 0 } else { exit 1 }
 }
 else {
-    # Default: Start Syncthing (either -Start parameter or no parameters)
-    
+    # Default: Install startup shortcut (if needed) and start Syncthing
+
+    # Check if startup shortcut exists, install if not
+    if (-not (Test-Path $shortcutPath)) {
+        Write-Host "Installing Syncthing startup shortcut..." -ForegroundColor Cyan
+        $success = Install-StartupShortcut
+        if ($success) {
+            Write-Host "Syncthing will now start automatically on login" -ForegroundColor Green
+        } else {
+            Write-Host "Warning: Failed to install startup shortcut, but continuing..." -ForegroundColor Yellow
+        }
+    } else {
+        Write-Host "Startup shortcut already exists" -ForegroundColor Green
+    }
+
     # Check if Syncthing is already running
     $existingProcess = Get-Process -Name "syncthing" -ErrorAction SilentlyContinue
     if ($existingProcess) {
         Write-Host "Syncthing is already running (PID: $($existingProcess.Id))" -ForegroundColor Green
+        Write-Host "Web UI: http://localhost:8384" -ForegroundColor Cyan
         exit 0
     }
-    
+
     # Verify Syncthing executable exists
     if (-not (Test-Path $syncthingExe)) {
         Write-Host "Syncthing executable not found: $syncthingExe" -ForegroundColor Red
         Write-Host "Make sure Syncthing is installed via Scoop" -ForegroundColor Yellow
         exit 1
     }
-    
+
     # Verify config directory exists
     if (-not (Test-Path $configPath)) {
         Write-Host "Config directory not found: $configPath" -ForegroundColor Red
         Write-Host "Run Syncthing manually first to create initial config" -ForegroundColor Yellow
         exit 1
     }
-    
+
     # Start Syncthing with proper config path
     Write-Host "Starting Syncthing..." -ForegroundColor Green
     Write-Host "Config path: $configPath" -ForegroundColor Cyan
-    
+
     try {
         # Start Syncthing in background with specified config path
         $process = Start-Process -FilePath $syncthingExe `
             -ArgumentList "-home `"$configPath`" -no-browser" `
             -WindowStyle Hidden `
             -PassThru
-        
+
         # Wait a moment to check if it started successfully
         Start-Sleep -Seconds 2
-        
+
         if ($process.HasExited) {
             Write-Host "Syncthing failed to start. Check Syncthing logs for details." -ForegroundColor Red
             exit 1
