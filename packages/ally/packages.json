@@ -54,6 +54,11 @@
       "name": "GeForceNOW",
       "url": "https://download.nvidia.com/gfnpc/GeForceNOW-release.exe",
       "fileName": "GeForceNOW-release.exe"
+    },
+    {
+      "name": "AmdSoftWareAdrenalin",
+      "url": "https://drivers.amd.com/drivers/installer/25.10/whql/amd-software-adrenalin-edition-25.6.1-minimalsetup-250602_web.exe",
+      "fileName": "amd-software-adrenalin-edition-25.6.1-minimalsetup-250602_web.exe"
     }
   ],
   "copy": [],
