@@ -29,6 +29,10 @@ Set-Alias -Name g -Value git
 Remove-Item alias:cat -Force -ErrorAction SilentlyContinue
 Set-Alias -Name cat -Value bat
 
+# Remove built-in ls alias and replace with lsd
+Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
+Set-Alias -Name ls -Value lsd
+
 # Set environment variable for claude.cmd
 `$env:CLAUDE_CODE_GIT_BASH_PATH = (Get-Command bash.exe -ErrorAction SilentlyContinue).Source
 
