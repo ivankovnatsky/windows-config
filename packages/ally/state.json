@@ -15,7 +15,7 @@
                           "installedOn":  "2025-05-30 07:15:07"
                       }
                   ],
-    "lastUpdated":  "2025-06-29 20:44:20",
+    "lastUpdated":  "2025-07-25 07:33:48",
     "copy":  [
 
              ],
@@ -181,16 +181,22 @@
                       "installedOn":  "2025-01-12 20:31:02"
                   },
                   {
-                      "name":  "delve",
-                      "installedOn":  "2025-05-30 07:14:41"
-                  },
-                  {
                       "name":  "windsurf",
                       "installedOn":  "2025-06-20 19:03:05"
                   },
                   {
                       "name":  "ffmpeg",
                       "installedOn":  "2025-06-29 20:44:20"
+                  },
+                  {
+                      "name":  "delve",
+                      "installedOn":  "2025-07-25 07:33:48"
                   }
-              ]
+              ],
+    "winget":  [
+
+               ],
+    "msstore":  [
+
+                ]
 }
