@@ -1,4 +1,4 @@
-# packages
+# ally
 
 Experimental declarative windows package management.
 
