@@ -58,6 +58,7 @@
   ],
   "copy": [],
   "nodejs": [
-    "webtorrent-cli"
+    "webtorrent-cli",
+    "@anthropic-ai/claude-code"
   ]
 }

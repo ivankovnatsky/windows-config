@@ -3,6 +3,10 @@
                    {
                        "name":  "webtorrent-cli",
                        "installedOn":  "2025-01-01 10:26:34"
+                   },
+                   {
+                       "name":  "@anthropic-ai/claude-code",
+                       "installedOn":  "2025-07-25 07:56:17"
                    }
                ],
     "arbitrary":  [
@@ -15,7 +19,7 @@
                           "installedOn":  "2025-05-30 07:15:07"
                       }
                   ],
-    "lastUpdated":  "2025-07-25 07:33:48",
+    "lastUpdated":  "2025-07-25 07:58:02",
     "copy":  [
 
              ],
@@ -187,10 +191,6 @@
                   {
                       "name":  "ffmpeg",
                       "installedOn":  "2025-06-29 20:44:20"
-                  },
-                  {
-                      "name":  "delve",
-                      "installedOn":  "2025-07-25 07:33:48"
                   }
               ],
     "winget":  [
