@@ -316,7 +316,28 @@ function Install-ArbitraryPackage($package) {
 
     try {
         Write-Host "Downloading from: $($package.url)"
-        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" "$($package.url)" --output-document="$outputFile"
+        
+        # Build wget command with optional arguments
+        $wgetArgs = @("$($package.url)", "--output-document=`"$outputFile`"")
+        
+        # Add browser headers if package requires them
+        if ($package.requiresBrowserHeaders -eq $true) {
+            Write-Host "Adding browser headers for download..." -ForegroundColor Yellow
+            $uri = [System.Uri]$package.url
+            $referer = "$($uri.Scheme)://$($uri.Host)"
+            $wgetArgs += @(
+                "--referer=$referer",
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "--content-disposition"
+            )
+        }
+        
+        # Allow manual override with wgetArgs if specified
+        if ($package.wgetArgs) {
+            $wgetArgs += $package.wgetArgs
+        }
+        
+        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" @wgetArgs
         if ($LASTEXITCODE -ne 0) {
             throw "wget failed with exit code $LASTEXITCODE"
         }
@@ -563,7 +584,28 @@ function Install-CopyPackage($package) {
         $finalPath = Join-Path $binPath $package.fileName
         
         Write-Host "Downloading from: $($package.url)"
-        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" "$($package.url)" --output-document="$outputFile"
+        
+        # Build wget command with optional arguments
+        $wgetArgs = @("$($package.url)", "--output-document=`"$outputFile`"")
+        
+        # Add browser headers if package requires them
+        if ($package.requiresBrowserHeaders -eq $true) {
+            Write-Host "Adding browser headers for download..." -ForegroundColor Yellow
+            $uri = [System.Uri]$package.url
+            $referer = "$($uri.Scheme)://$($uri.Host)"
+            $wgetArgs += @(
+                "--referer=$referer",
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "--content-disposition"
+            )
+        }
+        
+        # Allow manual override with wgetArgs if specified
+        if ($package.wgetArgs) {
+            $wgetArgs += $package.wgetArgs
+        }
+        
+        & "$env:USERPROFILE\scoop\apps\wget\current\wget.exe" @wgetArgs
         if ($LASTEXITCODE -ne 0) {
             throw "wget failed with exit code $LASTEXITCODE"
         }

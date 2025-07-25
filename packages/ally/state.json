@@ -17,9 +17,13 @@
                       {
                           "name":  "GeForceNOW",
                           "installedOn":  "2025-05-30 07:15:07"
+                      },
+                      {
+                          "name":  "AmdSoftWareAdrenalin",
+                          "installedOn":  "2025-07-25 10:39:31"
                       }
                   ],
-    "lastUpdated":  "2025-07-25 10:08:17",
+    "lastUpdated":  "2025-07-25 10:39:31",
     "copy":  [
 
              ],
