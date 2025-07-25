@@ -4,7 +4,8 @@ $destDir = (Join-Path $env:LOCALAPPDATA "nvim").TrimEnd('\')
 
 # Files to preserve in destination (won't be overwritten or deleted)
 $preserveFiles = @(
-    "lazy-lock.json"      # Package manager lock file
+    "lazy-lock.json"
+    "lazyvim.json"
 )
 
 # Before sync, copy preserved files from dest to source if they exist
