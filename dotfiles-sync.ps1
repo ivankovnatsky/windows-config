@@ -369,7 +369,7 @@ try {
     
     # Find files to remove (deployed but no longer in source)
     # Exclude preserved and ignored files from removal
-    $filesToRemove = $state.deployedFiles | Where-Object {
+    $filesToRemove = @($state.deployedFiles | Where-Object {
         $deployedTarget = $_.target
         $deployedRelativePath = $_.relativePath
         
@@ -378,10 +378,18 @@ try {
             return $false
         }
         
+        # Check if the source file still exists
+        $sourceFile = Join-Path $dotfilesDir $deployedRelativePath
+        if (-not (Test-Path $sourceFile)) {
+            Write-Host "Source file missing for: $deployedRelativePath" -ForegroundColor Magenta
+            return $true
+        }
+        
         # Remove if no longer in current files
         -not ($currentFiles | Where-Object { $_.target -eq $deployedTarget })
-    }
+    })
     
+    Write-Host "Files to remove count: $($filesToRemove.Count)" -ForegroundColor Cyan
     if ($filesToRemove.Count -gt 0) {
         if (-not $Force) {
             Write-Host "The following files will be removed from your home directory:" -ForegroundColor Yellow
