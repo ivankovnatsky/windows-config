@@ -17,8 +17,7 @@ return {
       -- PowerShell config
       opts.servers.powershell_es = {
         bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services",
-        shell = "pwsh.exe",
-        cmd = { "pwsh.exe", "-NoLogo", "-NoProfile", "-Command" },
+        shell = "pwsh",
         settings = {
           powershell = {
             codeFormatting = { Preset = "OTBS" }
