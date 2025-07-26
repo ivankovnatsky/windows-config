@@ -31,6 +31,11 @@ $stateFile = Join-Path $PSScriptRoot "dotfiles-state.json"
 
 # Files to preserve in destination (won't be overwritten or deleted)
 $preserveFiles = @(
+    # Add files here that should be preserved (e.g., machine-specific configs)
+)
+
+# Files to ignore completely (won't be synced back or deleted)
+$ignoreFiles = @(
     "AppData/Local/nvim/lazy-lock.json",
     "AppData/Local/nvim/lazyvim.json"
 )
@@ -73,6 +78,11 @@ function Update-StateFile($state) {
 # Function to check if a file should be preserved
 function Test-PreservedFile($relativePath) {
     return $preserveFiles | Where-Object { $relativePath -eq $_ }
+}
+
+# Function to check if a file should be ignored
+function Test-IgnoredFile($relativePath) {
+    return $ignoreFiles | Where-Object { $relativePath -eq $_ }
 }
 
 # Function to sync preserved files from destination back to source
@@ -233,6 +243,12 @@ function Invoke-DiffMode {
             continue
         }
         
+        # Skip ignored files
+        if (Test-IgnoredFile $relativePath) {
+            Write-Host "IGNORED: $relativePath (not managed)" -ForegroundColor DarkGray
+            continue
+        }
+        
         # Track current files
         $currentFiles += @{
             target = $targetFile
@@ -248,8 +264,8 @@ function Invoke-DiffMode {
         $deployedTarget = $_.target
         $deployedRelativePath = $_.relativePath
         
-        # Don't remove preserved files
-        if (Test-PreservedFile $deployedRelativePath) {
+        # Don't remove preserved or ignored files
+        if (Test-PreservedFile $deployedRelativePath -or Test-IgnoredFile $deployedRelativePath) {
             return $false
         }
         
@@ -297,9 +313,14 @@ try {
         $relativePath = $sourceFile.FullName.Substring($dotfilesDir.Length + 1)
         $targetFile = Join-Path $env:USERPROFILE $relativePath
         
-        # Skip preserved files during deployment (they're handled separately)
+        # Skip preserved and ignored files during deployment
         if (Test-PreservedFile $relativePath) {
             Write-Host "Skipped preserved file: $relativePath" -ForegroundColor Gray
+            continue
+        }
+        
+        if (Test-IgnoredFile $relativePath) {
+            Write-Host "Skipped ignored file: $relativePath" -ForegroundColor Gray
             continue
         }
         
@@ -327,31 +348,33 @@ try {
         
         if ($needsDeployment) {
             $deployResult = Deploy-File $sourceFile.FullName $targetFile
-            
-            if ($deployResult) {
-                # Update or add to state
-                if ($existingEntry) {
-                    $existingEntry.deployedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                } else {
-                    $state.deployedFiles += @{
-                        source = $sourceFile.FullName
-                        target = $targetFile
-                        relativePath = $relativePath
-                        deployedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                    }
+        } else {
+            $deployResult = $true
+        }
+        
+        if ($deployResult) {
+            # Update or add to state
+            if ($existingEntry) {
+                $existingEntry.deployedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+            } else {
+                $state.deployedFiles += @{
+                    source = $sourceFile.FullName
+                    target = $targetFile
+                    relativePath = $relativePath
+                    deployedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
                 }
             }
         }
     }
     
     # Find files to remove (deployed but no longer in source)
-    # Exclude preserved files from removal
+    # Exclude preserved and ignored files from removal
     $filesToRemove = $state.deployedFiles | Where-Object {
         $deployedTarget = $_.target
         $deployedRelativePath = $_.relativePath
         
-        # Don't remove if it's a preserved file
-        if (Test-PreservedFile $deployedRelativePath) {
+        # Don't remove if it's a preserved or ignored file
+        if (Test-PreservedFile $deployedRelativePath -or Test-IgnoredFile $deployedRelativePath) {
             return $false
         }
         

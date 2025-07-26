@@ -1,0 +1,209 @@
+{
+  "lastUpdated": "2025-07-26 19:01:40",
+  "deployedFiles": [
+    {
+      "target": "C:\\Users\\ivan\\.gitconfig",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\.gitconfig",
+      "relativePath": ".gitconfig"
+    },
+    {
+      "target": "C:\\Users\\ivan\\.config\\scoop\\config.json",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\.config\\scoop\\config.json",
+      "relativePath": ".config\\scoop\\config.json"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\.gitignore",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\.gitignore",
+      "relativePath": "AppData\\Local\\nvim\\.gitignore"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\.neoconf.json",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\.neoconf.json",
+      "relativePath": "AppData\\Local\\nvim\\.neoconf.json"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\init.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\init.lua",
+      "relativePath": "AppData\\Local\\nvim\\init.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\LICENSE",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\LICENSE",
+      "relativePath": "AppData\\Local\\nvim\\LICENSE"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\README.md",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\README.md",
+      "relativePath": "AppData\\Local\\nvim\\README.md"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\stylua.toml",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\stylua.toml",
+      "relativePath": "AppData\\Local\\nvim\\stylua.toml"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\config\\autocmds.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\config\\autocmds.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\config\\autocmds.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\config\\commands.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\config\\commands.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\config\\commands.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\config\\keymaps.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\config\\keymaps.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\config\\keymaps.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\config\\lazy.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\config\\lazy.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\config\\lazy.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\config\\options.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\config\\options.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\config\\options.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\base.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\base.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\base.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\blink-cmp.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\blink-cmp.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\blink-cmp.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\copilot.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\copilot.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\copilot.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\extras.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\extras.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\extras.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\git.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\git.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\git.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\lsp.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\lsp.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\lsp.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\mason.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\mason.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\mason.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\nvim-cmp.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\nvim-cmp.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\nvim-cmp.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\oil.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\oil.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\oil.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\other.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\other.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\other.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\powershell.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\powershell.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\powershell.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\telescope.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\telescope.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\telescope.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\treesitter.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\treesitter.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\treesitter.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lua\\plugins\\trouble.lua",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lua\\plugins\\trouble.lua",
+      "relativePath": "AppData\\Local\\nvim\\lua\\plugins\\trouble.lua"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json",
+      "relativePath": "AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+    },
+    {
+      "target": "C:\\Users\\ivan\\Desktop\\hibernate.bat",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\Desktop\\hibernate.bat",
+      "relativePath": "Desktop\\hibernate.bat"
+    },
+    {
+      "target": "C:\\Users\\ivan\\Desktop\\poweroff.bat",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\Desktop\\poweroff.bat",
+      "relativePath": "Desktop\\poweroff.bat"
+    },
+    {
+      "target": "C:\\Users\\ivan\\Desktop\\reboot.bat",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\Desktop\\reboot.bat",
+      "relativePath": "Desktop\\reboot.bat"
+    },
+    {
+      "target": "C:\\Users\\ivan\\scoop\\persist\\mpv\\portable_config\\mpv.conf",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\scoop\\persist\\mpv\\portable_config\\mpv.conf",
+      "relativePath": "scoop\\persist\\mpv\\portable_config\\mpv.conf"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lazy-lock.json",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lazy-lock.json",
+      "relativePath": "AppData\\Local\\nvim\\lazy-lock.json"
+    },
+    {
+      "target": "C:\\Users\\ivan\\AppData\\Local\\nvim\\lazyvim.json",
+      "deployedOn": "2025-07-26 19:01:40",
+      "source": "C:\\Users\\ivan\\Sources\\github.com\\ivankovnatsky\\windows-config\\dotfiles\\AppData\\Local\\nvim\\lazyvim.json",
+      "relativePath": "AppData\\Local\\nvim\\lazyvim.json"
+    }
+  ]
+}
