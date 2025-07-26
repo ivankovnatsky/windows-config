@@ -19,10 +19,10 @@
 	safecrlf = false
 
 [credential "https://gist.github.com"]
-	helper = "gh auth git-credential"
+	helper = "C:/Users/ivan/scoop/shims/gh.exe auth git-credential"
 
 [credential "https://github.com"]
-	helper = "gh auth git-credential"
+	helper = "C:/Users/ivan/scoop/shims/gh.exe auth git-credential"
 
 [diff]
 	noprefix = true
@@ -56,6 +56,9 @@
 
 [push]
 	default = "current"
+
+[gpg]
+	program = "C:/Users/ivan/scoop/apps/gnupg/current/bin/gpg.exe"
 
 [tag]
 	forceSignAnnotated = "true"
