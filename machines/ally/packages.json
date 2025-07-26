@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "lsd",
     "windsurf",
     "chromium",
     "aria2",
