@@ -17,16 +17,16 @@ Options:
     -sourcePath           Specify custom directory to backup (default: user home directory)
     
 Description:
-    Creates a ZIP archive of specified directory (or home directory by default) and uploads it to Google Drive.
+    Creates a ZIP archive of specified directory (or home directory by default) and transfers it via SSH to a local machine.
     The backup excludes various system and cache folders.
     
 Backup Location:
     Local: $([System.IO.Path]::GetTempPath())
-    Remote: drive_Crypt:Machines/`$env:COMPUTERNAME/Users/`$env:USERNAME
+    Remote: SSH to target machine
 
 Requirements:
     - 7-Zip (available in PATH)
-    - rclone (available in PATH with configured drive_Crypt remote)
+    - OpenSSH (ssh and scp commands available in PATH)
 "@
     exit 0
 }
@@ -35,9 +35,11 @@ Requirements:
 $sourceDir = if ($sourcePath) { $sourcePath } else { "$env:USERPROFILE" }  # Use custom path or default to home directory
 $backupRoot = [System.IO.Path]::GetTempPath()  # Temp directory
 $backupFile = Join-Path $backupRoot "$env:USERNAME.zip"
-$rcloneConfig = "$env:USERPROFILE\.config\rclone\rclone.conf"
-$rcloneRemote = "drive_Crypt"
-$uploadPath = "Machines/$env:COMPUTERNAME/Users/$env:USERNAME"
+$targetMachine = "ivans-mac-mini.local"
+$backupPath = "/Volumes/Storage/Data/Drive/Crypt/Machines/"
+$hostname = $env:COMPUTERNAME
+$dateDir = Get-Date -Format "yyyy-MM-dd"
+$uploadPath = "$backupPath$hostname/Users/$dateDir"
 
 # Show help if requested via PowerShell parameters or --help
 if ($h -or ($MyInvocation.UnboundArguments -contains '--help')) {
@@ -49,16 +51,16 @@ Options:
     -h, -help, --help      Show this help message
     
 Description:
-    Creates a ZIP archive of your home directory and uploads it to Google Drive.
+    Creates a ZIP archive of your home directory and transfers it via SSH to a local machine.
     The backup excludes various system and cache folders.
     
 Backup Location:
     Local: $([System.IO.Path]::GetTempPath())
-    Remote: ${rcloneRemote}:Machines/`$env:COMPUTERNAME/Users/`$env:USERNAME
+    Remote: SSH to target machine
 
 Requirements:
     - 7-Zip (available in PATH)
-    - rclone (available in PATH with configured $rcloneRemote remote)
+    - OpenSSH (ssh and scp commands available in PATH)
 "@
     exit 0
 }
@@ -116,7 +118,15 @@ function Create-Backup {
             "Templates",
             "Documents\My Music",
             "Documents\My Pictures",
-            "Documents\My Videos"
+            "Documents\My Videos",
+            "AppData\Local\Comms",
+            "AppData\Local\NVIDIA Corporation",
+            ".codeium",
+            ".cursor",
+            "AppData\Local\go-build",
+            "AppData\Local\nvim-data",
+            "Downloads",
+            "go"
         ) | ForEach-Object { "-xr!`"$_`"" }
 
         $arguments = @(
@@ -160,36 +170,44 @@ function Create-Backup {
 }
 
 function Upload-Backup {
-    Write-Host "Starting upload to Google Drive..."
-    Write-Host "Upload destination: drive_Crypt:$uploadPath"
+    Write-Host "Starting SSH transfer to: $targetMachine"
+    Write-Host "Destination: $uploadPath"
     
     try {
-        # Check if rclone is available in PATH
-        if (!(Get-Command "rclone" -ErrorAction SilentlyContinue)) {
-            throw "rclone is not found in PATH. Please install rclone first."
+        if (!(Get-Command "ssh" -ErrorAction SilentlyContinue)) {
+            throw "ssh is not found in PATH. Please install OpenSSH."
         }
 
-        # Check if config exists
-        if (!(Test-Path $rcloneConfig)) {
-            throw "rclone config not found at: $rcloneConfig"
+        if (!(Get-Command "scp" -ErrorAction SilentlyContinue)) {
+            throw "scp is not found in PATH. Please install OpenSSH."
         }
 
-        # Upload using rclone
-        Write-Host "Uploading backup file..."
-        $process = Start-Process -FilePath "rclone" -ArgumentList @(
-            "copy",
-            "--config",
-            "`"$rcloneConfig`"",
-            "--progress",
-            "`"$backupFile`"",
-            "drive_Crypt:$uploadPath"
-        ) -NoNewWindow -Wait -PassThru
+        if ($hostname.ToLower() -eq $targetMachine.Replace(".local", "").ToLower()) {
+            Write-Host "Local machine detected, copying directly..."
+            New-Item -ItemType Directory -Path $uploadPath -Force | Out-Null
+            Move-Item $backupFile "$uploadPath/$env:USERNAME.zip"
+        } else {
+            Write-Host "Creating remote directory..."
+            $sshCommand = "mkdir -p `"$uploadPath`""
+            $process = Start-Process -FilePath "ssh" -ArgumentList @("ivan@$targetMachine", $sshCommand) -NoNewWindow -Wait -PassThru
+            
+            if ($process.ExitCode -ne 0) {
+                throw "SSH mkdir failed with exit code $($process.ExitCode)"
+            }
 
-        if ($process.ExitCode -ne 0) {
-            throw "rclone failed with exit code $($process.ExitCode)"
+            Write-Host "Transferring backup file..."
+            $scpTarget = "ivan@${targetMachine}:$uploadPath/$env:USERNAME.zip"
+            $process = Start-Process -FilePath "scp" -ArgumentList @("`"$backupFile`"", $scpTarget) -NoNewWindow -Wait -PassThru
+
+            if ($process.ExitCode -ne 0) {
+                throw "scp failed with exit code $($process.ExitCode)"
+            }
+
+            Write-Host "Cleaning up local backup file..."
+            Remove-Item $backupFile -Force
         }
 
-        Write-Host "Upload completed successfully!"
+        Write-Host "Transfer completed successfully!"
         return $true
     }
     catch {
@@ -200,9 +218,9 @@ function Upload-Backup {
 
 # Main execution
 if (Create-Backup) {
-    Write-Host "Starting upload process..."
+    Write-Host "Starting transfer process..."
     Upload-Backup
 } else {
-    Write-Host "Backup failed, skipping upload."
+    Write-Host "Backup failed, skipping transfer."
     exit 1
 }
