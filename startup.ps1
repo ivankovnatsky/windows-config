@@ -1,7 +1,7 @@
 # Startup Setup Script
 # Creates startup shortcuts and automatically manages state
 
-$stateFile = Join-Path $PSScriptRoot "startup-state.json"
+$stateFile = Join-Path $env:USERPROFILE ".config\windows-config\startup\state.json"
 $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 # Define desired startup programs (executable paths)

@@ -129,7 +129,7 @@ if (-not (Test-Path $configDir)) {
 }
 
 $packagesFile = Join-Path $configDir "packages.json"
-$stateFile = Join-Path $configDir "state.json"
+$stateFile = Join-Path $env:USERPROFILE ".config\windows-config\machines\$Hostname\state.json"
 
 Write-Host "Using configuration from: $configDir" -ForegroundColor Cyan
 

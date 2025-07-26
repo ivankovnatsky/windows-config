@@ -27,7 +27,7 @@ if ($Help) {
 
 # Define paths
 $dotfilesDir = Join-Path $PSScriptRoot "dotfiles"
-$stateFile = Join-Path $PSScriptRoot "dotfiles-state.json"
+$stateFile = Join-Path $env:USERPROFILE ".config\windows-config\dotfiles\state.json"
 
 # Files to preserve in destination (won't be overwritten or deleted)
 $preserveFiles = @(
