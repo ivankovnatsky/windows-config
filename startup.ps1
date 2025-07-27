@@ -137,7 +137,9 @@ function Disable-UnwantedStartupItems {
     # Items to disable in StartupApproved registry (only user-level items)
     $itemsToDisable = @(
         @{ Name = 'MicrosoftEdgeAutoLaunch*'; Description = 'Microsoft Edge Auto-launch' },
-        @{ Name = 'OneDrive*'; Description = 'Microsoft OneDrive' }
+        @{ Name = 'OneDrive*'; Description = 'Microsoft OneDrive' },
+        @{ Name = 'Mozilla-Firefox*'; Description = 'Mozilla Firefox' },
+        @{ Name = 'Mobile*'; Description = 'Mobile devices' }
     )
     
     # StartupApproved registry path (user-level only, no admin required)
