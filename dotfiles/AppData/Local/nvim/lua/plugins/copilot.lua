@@ -25,8 +25,12 @@ return {
             jump_next = "]]",
             accept = "<CR>",
             refresh = "gr",
-            open = "<M-CR>"
+            open = "<M-CR>",
           },
+        },
+        filetypes = {
+          gitcommit = true,
+          markdown = true,
         },
       })
     end,
