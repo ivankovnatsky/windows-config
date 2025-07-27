@@ -49,6 +49,11 @@
   ],
   "arbitrary": [
     {
+      "name": "GeForceNOW",
+      "url": "https://download.nvidia.com/gfnpc/GeForceNOW-release.exe",
+      "fileName": "GeForceNOW-release.exe"
+    },
+    {
       "name": "NVIDIA Graphics Driver",
       "url": "https://us.download.nvidia.com/Windows/576.88/576.88-desktop-win10-win11-64bit-international-dch-whql.exe",
       "fileName": "nvidia-driver-576.88.exe",
