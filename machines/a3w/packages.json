@@ -86,9 +86,7 @@
   ],
   "copy": [],
   "winget": [],
-  "msstore": [
-    "9N3NK5WW05HT"
-  ],
+  "msstore": [],
   "nodejs": [
     "@anthropic-ai/claude-code"
   ]
