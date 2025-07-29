@@ -1,6 +1,7 @@
 {
   "scoop": [
     "7zip",
+    "rufus",
     "jq",
     "ollama",
     "aichat",
