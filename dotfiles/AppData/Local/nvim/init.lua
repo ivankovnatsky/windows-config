@@ -3,3 +3,6 @@ require("config.lazy")
 
 -- Load custom commands
 require("config.commands")
+
+-- Load appearance management
+require("config.appearance")
