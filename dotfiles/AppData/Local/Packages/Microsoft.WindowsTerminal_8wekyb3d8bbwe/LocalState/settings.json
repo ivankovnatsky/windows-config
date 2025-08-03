@@ -61,6 +61,7 @@
     {
         "defaults": 
         {
+            "colorScheme": {"dark": "Campbell", "light": "Tango Light"},
             "font": 
             {
                 "face": "Hack Nerd Font",
@@ -90,5 +91,6 @@
         ]
     },
     "schemes": [],
+    "theme": "system",
     "themes": []
 }
