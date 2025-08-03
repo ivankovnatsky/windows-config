@@ -1,11 +1,11 @@
 return {
   {
-    'stevearc/oil.nvim',
+    "stevearc/oil.nvim",
     opts = {
       -- Default oil config
       view_options = {
         -- Show hidden files
-        show_hidden = false,
+        show_hidden = true,
       },
       -- Add file icons
       columns = {
@@ -18,5 +18,5 @@ return {
     },
     -- Optional dependency for file icons
     dependencies = { "nvim-tree/nvim-web-devicons" },
-  }
+  },
 }
