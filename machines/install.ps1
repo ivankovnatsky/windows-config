@@ -95,22 +95,6 @@ if (!(Test-Path "$env:USERPROFILE\scoop\apps\git")) {
     Write-Host "Git is already installed via Scoop." -ForegroundColor Green
 }
 
-# Define required buckets
-$requiredBuckets = @('extras', 'nerd-fonts', 'games')
-
-# Check and add required buckets
-foreach ($bucket in $requiredBuckets) {
-    $bucketExists = scoop bucket list | Where-Object { $_ -match $bucket }
-    if (!$bucketExists) {
-        Write-Host "Adding $bucket bucket..." -ForegroundColor Cyan
-        scoop bucket add $bucket
-    } else {
-        Write-Host "$bucket bucket is already added." -ForegroundColor Green
-    }
-}
-
-
-
 # If no hostname is provided, use the system hostname
 if (-not $Hostname) {
     $Hostname = $env:COMPUTERNAME.ToLower()
@@ -133,6 +117,33 @@ $stateFile = Join-Path $env:USERPROFILE ".config\windows-config\machines\$Hostna
 
 Write-Host "Using configuration from: $configDir" -ForegroundColor Cyan
 
+# Get required buckets from packages configuration
+if (Test-Path $packagesFile) {
+    try {
+        $packagesConfig = Get-Content -Path $packagesFile -Raw | ConvertFrom-Json
+        $requiredBuckets = @()
+        if ($packagesConfig.scoop -and $packagesConfig.scoop.buckets) {
+            $requiredBuckets = $packagesConfig.scoop.buckets
+        }
+    } catch {
+        Write-Warning "Could not read packages configuration for buckets, using default buckets"
+        $requiredBuckets = @('extras', 'nerd-fonts', 'games')
+    }
+} else {
+    $requiredBuckets = @('extras', 'nerd-fonts', 'games')
+}
+
+# Check and add required buckets
+foreach ($bucket in $requiredBuckets) {
+    $bucketExists = scoop bucket list | Where-Object { $_ -match $bucket }
+    if (!$bucketExists) {
+        Write-Host "Adding $bucket bucket..." -ForegroundColor Cyan
+        scoop bucket add $bucket
+    } else {
+        Write-Host "$bucket bucket is already added." -ForegroundColor Green
+    }
+}
+
 # Function to read packages from JSON file
 function Get-PackagesFromJson($filePath) {
     if (-not (Test-Path $filePath)) {
@@ -142,8 +153,21 @@ function Get-PackagesFromJson($filePath) {
     
     try {
         $content = Get-Content -Path $filePath -Raw | ConvertFrom-Json
+        
+        # Handle both old and new scoop structure
+        $scoopPackages = @()
+        if ($content.scoop) {
+            if ($content.scoop -is [array]) {
+                # Old structure: scoop is array of packages
+                $scoopPackages = $content.scoop
+            } elseif ($content.scoop.packages) {
+                # New structure: scoop has buckets and packages
+                $scoopPackages = $content.scoop.packages
+            }
+        }
+        
         return @{
-            scoop = $content.scoop
+            scoop = $scoopPackages
             arbitrary = $content.arbitrary
             copy = $content.copy
             winget = $content.winget
