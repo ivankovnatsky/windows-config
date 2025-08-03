@@ -6,6 +6,8 @@ $startupPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 
 # Define desired startup programs (executable paths)
 $desiredStartupPrograms = @(
+  "C:\Users\ivan\scoop\shims\hwinfo.exe",
+  "C:\WINDOWS\system32\Taskmgr.exe"
 )
 
 # Define user startup items to disable (only user-level items, not system)
