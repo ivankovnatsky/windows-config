@@ -19,6 +19,10 @@ $Models = @(
     "gemma3:27b",
     "gemma3:12b",
     "llama3.1:8b",
+    "qwen3:32b",
+    "magistral:24b",
+    "mistral-nemo:12b",
+    "mistral-small3.2:24b",
     "gpt-oss:20b",
     "gpt-oss:120b"
 )
