@@ -9,10 +9,7 @@
     "packages": [
       "7zip",
       "rufus",
-      {
-        "name": "voicemeeter-np",
-        "requiresAdmin": true
-      },
+      "voicemeeter-banana-np",
       "jq",
       "ollama",
       "aichat",
