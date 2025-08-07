@@ -14,11 +14,13 @@ param(
 )
 
 $Models = @(
-    "llama4:scout",    # 104B params, highest quality
-    "llama3.3:70b",     # 70B params, faster alternative
+    "llama4:scout",
+    "llama3.3:70b",
     "gemma3:27b",
     "gemma3:12b",
-    "llama3.1:8b"
+    "llama3.1:8b",
+    "gpt-oss:20b",
+    "gpt-oss:120b"
 )
 
 function Show-Help {
@@ -39,6 +41,20 @@ function Show-Help {
     Write-Host "  .\ollama.ps1 -Pull" -ForegroundColor Gray
     Write-Host "  .\ollama.ps1 -Serve" -ForegroundColor Gray
     Write-Host "  .\ollama.ps1 -Clean" -ForegroundColor Gray
+}
+
+function Get-LocalIP {
+    $localIP = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias "Ethernet" -ErrorAction SilentlyContinue).IPAddress
+    if ($localIP) {
+        return $localIP
+    }
+    return "127.0.0.1"
+}
+
+function Set-OllamaHost {
+    $localIP = Get-LocalIP
+    $env:OLLAMA_HOST = "http://${localIP}:11434"
+    Write-Host "Using Ollama host: $env:OLLAMA_HOST" -ForegroundColor Cyan
 }
 
 function Test-OllamaInstalled {
@@ -105,6 +121,12 @@ function Invoke-OllamaClean {
 
 function Invoke-OllamaServe {
     Write-Host "Starting Ollama server..." -ForegroundColor Cyan
+    
+    # Get local IP address
+    $localIP = Get-LocalIP
+    $env:OLLAMA_HOST = $localIP
+    Write-Host "Server will listen on: $localIP" -ForegroundColor Green
+    
     Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Gray
     Write-Host ""
     
@@ -127,6 +149,11 @@ if ($commandCount -gt 1) {
 
 if (-not (Test-OllamaInstalled)) {
     exit 1
+}
+
+# Set OLLAMA_HOST for all operations except Help
+if (-not $Help) {
+    Set-OllamaHost
 }
 
 if ($Pull) {
