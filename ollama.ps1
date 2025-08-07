@@ -28,14 +28,10 @@ function Show-Help {
     Write-Host "Usage: .\ollama.ps1 [-Pull] [-Clean] [-Serve] [-Help]" -ForegroundColor White
     Write-Host ""
     Write-Host "Parameters:" -ForegroundColor Yellow
-    Write-Host "  -Pull    - Download both models (scout + 70b)" -ForegroundColor Green
+    Write-Host "  -Pull    - Download models" -ForegroundColor Green
     Write-Host "  -Serve   - Start Ollama server" -ForegroundColor Cyan
     Write-Host "  -Clean   - Remove ALL models" -ForegroundColor Red
     Write-Host "  -Help    - Show this help message" -ForegroundColor White
-    Write-Host ""
-    Write-Host "Available Models:" -ForegroundColor Yellow
-    Write-Host "  llama4:scout  - 104B params, highest quality" -ForegroundColor White
-    Write-Host "  llama3.3:70b - 70B params, faster alternative" -ForegroundColor White
     Write-Host ""
     Write-Host "Examples:" -ForegroundColor Yellow
     Write-Host "  .\ollama.ps1 -Pull" -ForegroundColor Gray
