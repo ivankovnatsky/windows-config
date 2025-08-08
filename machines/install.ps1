@@ -326,10 +326,35 @@ function Install-ScoopPackage($package) {
 }
 
 # Function to uninstall scoop package
-function Uninstall-ScoopPackage($package) {
+function Uninstall-ScoopPackage($package, $requiresAdmin = $false) {
     Write-Host "Uninstalling Scoop package: $package" -ForegroundColor Cyan
-    scoop uninstall $package
-    return $LASTEXITCODE -eq 0
+    if ($requiresAdmin) {
+        Write-Host "Package $package requires admin rights to uninstall" -ForegroundColor Yellow
+        try {
+            Start-Process powershell -ArgumentList "-Command", "scoop uninstall $package; Read-Host 'Press Enter to continue'" -Verb RunAs -Wait
+            return $true
+        } catch {
+            Write-Host "Failed to uninstall $package with admin privileges" -ForegroundColor Red
+            return $false
+        }
+    } else {
+        $output = scoop uninstall $package 2>&1 | Out-String
+        Write-Host $output
+        
+        # Check if the error indicates admin rights are needed
+        if ($output -match "requires admin rights to uninstall" -or $output -match "need admin rights") {
+            Write-Host "Package $package requires admin rights, retrying with elevation..." -ForegroundColor Yellow
+            try {
+                Start-Process powershell -ArgumentList "-Command", "scoop uninstall $package; Read-Host 'Press Enter to continue'" -Verb RunAs -Wait
+                return $true
+            } catch {
+                Write-Host "Failed to uninstall $package with admin privileges" -ForegroundColor Red
+                return $false
+            }
+        }
+        
+        return $LASTEXITCODE -eq 0
+    }
 }
 
 # Function to install arbitrary package
@@ -836,6 +861,12 @@ try {
                     try {
                         Start-Process powershell -ArgumentList "-Command", "scoop install $package; Read-Host 'Press Enter to continue'" -Verb RunAs -Wait
                         Write-Host "Admin installation completed for $package" -ForegroundColor Green
+                        # Track admin package in state with requiresAdmin flag
+                        $state.$packageType += @{ 
+                            name = $package
+                            installedOn = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                            requiresAdmin = $true
+                        }
                     } catch {
                         Write-Host "Failed to install $package with admin privileges" -ForegroundColor Red
                     }
@@ -857,8 +888,16 @@ try {
                 
                 foreach ($package in $packagesToUninstall) {
                     Write-Host "Uninstalling $packageType package: $package" -ForegroundColor Yellow
+                    # Check if package requires admin for uninstall
+                    $requiresAdmin = $false
+                    if ($packageType -eq 'scoop') {
+                        $stateEntry = $state.$packageType | Where-Object { $_.name -eq $package }
+                        if ($stateEntry -and $stateEntry.requiresAdmin) {
+                            $requiresAdmin = $true
+                        }
+                    }
                     $uninstallResult = switch ($packageType) {
-                        'scoop' { Uninstall-ScoopPackage $package }
+                        'scoop' { Uninstall-ScoopPackage $package $requiresAdmin }
                         'winget' { Uninstall-WingetPackage $package }
                         'msstore' { Uninstall-MsStorePackage $package }
                         'nodejs' { Uninstall-NodejsPackage $package }

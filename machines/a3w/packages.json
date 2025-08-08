@@ -9,7 +9,6 @@
     "packages": [
       "7zip",
       "rufus",
-      "voicemeeter-banana-np",
       "jq",
       "ollama",
       "aichat",
