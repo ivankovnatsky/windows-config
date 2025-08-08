@@ -4,3 +4,6 @@
 
 -- Disable smart case search
 vim.opt.smartcase = false
+
+-- Disable system clipboard integration
+vim.opt.clipboard = ""
