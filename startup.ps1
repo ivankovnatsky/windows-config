@@ -10,12 +10,6 @@ $desiredStartupPrograms = @(
   "C:\WINDOWS\system32\Taskmgr.exe"
 )
 
-# Define user startup items to disable (only user-level items, not system)
-$disableStartupItems = @(
-    "Microsoft Edge",
-    "Microsoft OneDrive"
-)
-
 # Define existing startup items to enable (items already in registry but disabled)
 $enableStartupItems = @(
     "Terminal"
