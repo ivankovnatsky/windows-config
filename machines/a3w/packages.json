@@ -8,6 +8,8 @@
     ],
     "packages": [
       "7zip",
+      "go",
+      "golangci-lint",
       "rufus",
       "jq",
       "ollama",
