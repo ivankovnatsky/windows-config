@@ -81,6 +81,12 @@
       "interactive": true
     },
     {
+      "name": "MTK WIFI Driver",
+      "url": "https://dlcdnta.asus.com/pub/ASUS/mb/SocketAM5/M6870/MTK_WIFI_V5.4.0.2418_Windows_11_64-bit.zip?model=ROG%20STRIX%20B850-I%20GAMING%20WIFI&Signature=R7nNAtIXFPgz6~MeoMlJDMkStwcNb0tofTiWuaC-5sfpZ3Ds9d7W7APk2nou69Xq2hXrGSXC9p-NuF5iTSeBajIMk4kY5YpKqeomaX03ZcdL0Uk2ydPUtRqzICrZhrpPW9Amufhf~D~cZdrwSAt~czDtN92LGqLLCS0zB9bXOvmsUpoXYtJ8SDZtA0COOWx~d~wd02uj6fNDcs0EUfd1u0TCIK-NieDN-reDGaB46h9wDT1vB17gf1sJ08qJKAyIwLe97U6XHX2QzUIwgxNIzJl-B--18fPjTNm0v83NxbLqOaAhwQo42a8fmsZPYJN1jdVW8oP4Uc16MkWC1r0w9g__&Expires=1755588806&Key-Pair-Id=K2ITB7O97XKKCX",
+      "fileName": "MTK_WIFI_V5.4.0.2418_Windows_11_64-bit.zip",
+      "interactive": true
+    },
+    {
       "name": "ROG RTX 5080 BIOS - Quiet Mode",
       "url": "https://dlcdnta.asus.com/pub/ASUS/Graphic%20Card/NVIDIA/BIOSUPDATE_TOOL/RTX5080/ASTRAL-RTX5080_V1.zip?model=ROG-ASTRAL-RTX5080-O16G-GAMING&Signature=3H1kGs91R7q4yjMuGDHLvmMH8I-fUGBUMlHc2h3WhmFVH5s14bI0r~zRTXIfqdIzhOnTnAdT6ygKHAh~JCCXwkjS3iZyhE3W0Udhe1eI4SXX2crV8oNOzewXEuXjaTWVMuDxLX~pqNVVZkImiVssoLKI~OZa706NB0lMGJXhuRSiyWT9hb2fjW940q9zjp-nUhKQKGThaEdh8D3tKDQu5QAUgYFxM6gq0rOxQsgG8YevXDpLJT9DDFJSj40N-Zuns50d6UkhpsfKKBvzhYnffmXbdpIzL~j3Pp82sKYLENjwNp-kVpSbsl2O3HMqjHdco561BuphN3F-~SO8OHnJtw__&Expires=1752397858&Key-Pair-Id=K2ITB7O97XKKCX",
       "fileName": "ASTRAL-RTX5080_V1.zip",
